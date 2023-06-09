@@ -1,13 +1,15 @@
 import React from "react";
 import { SiteHeader } from "~/components/home/site-header";
 import { columns } from "~/components/home/table-layanan/column";
-import { DataTable } from "~/components/home/table-layanan/data-table";
+import { DataTable } from "~/components/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { api } from "~/utils/api";
 
 const index = () => {
   const { data, isLoading, isError, error } =
     api.pemesananLayanan.getAll.useQuery();
+  // const { mutate } =
+  //   api.pemesananLayanan.create.useMutation();
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>{error.message}</div>;

@@ -1,13 +1,18 @@
-export type SiteConfig = typeof siteConfig
+export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
   name: "Petcare",
   description:
     "Beautifully designed components built with Radix UI and Tailwind CSS.",
-  mainNav: [
+  mainNav:  [
+    
     {
-      title: "Home",
+      title: "Pemesan",
       href: "/",
+    },
+    {
+      title: "Users",
+      href: "/users",
     },
   ],
   links: {
@@ -15,4 +20,4 @@ export const siteConfig = {
     github: "https://github.com/shadcn/ui",
     docs: "https://ui.shadcn.com",
   },
-}
+};

@@ -75,7 +75,7 @@ model PemesananLayanan {
     LayananKonsultasi   LayananKonsultasi? @relation(fields: [layananKonsultasiId], references: [id])
     layananKonsultasiId String?
     ////
-    user                User               @relation(fields: [userId], references: [id])
+    user                User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
     userId              String
     namaHewan           String
     kategoriHewan       String
@@ -135,10 +135,13 @@ model Session {
 
 model User {
     id               String             @id @default(cuid())
+    createdAt        DateTime           @default(now())
+    updatedAt        DateTime           @updatedAt
     name             String?
     email            String?            @unique
     emailVerified    DateTime?
     image            String?
+    isActive         Boolean            @default(false)
     accounts         Account[]
     sessions         Session[]
     PemesananLayanan PemesananLayanan[]
