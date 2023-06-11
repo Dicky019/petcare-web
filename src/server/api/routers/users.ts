@@ -12,9 +12,6 @@ import { sameDay } from "~/utils/function";
 export const usersRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     const allUsers = await ctx.prisma.user.findMany({});
-    const users = await ctx.prisma.user.findMany({
-      take: allUsers.length / 2,
-    });
 
     const date = new Date(0);
 
@@ -22,8 +19,6 @@ export const usersRouter = createTRPCRouter({
 
     const isActive = allUsers.filter((v) => v.isActive === true);
     const isNotActive = allUsers.filter((v) => v.isActive === false);
-
-    await 
 
     return {
       todayUsers,
