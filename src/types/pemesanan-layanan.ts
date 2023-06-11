@@ -1,6 +1,6 @@
 // /* eslint-disable @typescript-eslint/no-unsafe-return */
 // /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-// import { type AppRouter } from "~/server/api/root"
+import { type AppRouter } from "~/server/api/root"
 // import { faker } from "@faker-js/faker"
 // import {
 //   JenisKelaminHewan,
@@ -8,7 +8,7 @@
 //   PilihJamKesehatanKonsultasi,
 //   Status,
 // } from "@prisma/client"
-// import { type inferRouterOutputs } from "@trpc/server"
+import { type inferRouterOutputs } from "@trpc/server"
 // // import { z } from "zod"
 
 // //   namaHewan         String
@@ -18,10 +18,10 @@
 // //   keluhan           String
 // //   noHP              String
 
-// type RouterOutput = inferRouterOutputs<AppRouter>
-// type allUserOutput = RouterOutput["pemesananLayanan"]["getAll"]
+type RouterOutput = inferRouterOutputs<AppRouter>
+type allUserOutput = RouterOutput["pemesananLayanan"]["getAll"]
 
-// // export type IPemesananLayanan = allUserOutput[number]
+export type IPemesananLayanan = allUserOutput["allPemesananLayanan"][number]
 
 // const animal = {
 //   kucing: {

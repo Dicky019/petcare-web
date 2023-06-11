@@ -2,7 +2,7 @@
 
 // import { z } from "zod";
 
-import { JenisKelaminHewan, PilihJamGrouming, Status } from "@prisma/client";
+import { Status } from "@prisma/client";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 // import { dummyRandomAnimal } from "~/types/pemesanan-layanan";
@@ -29,9 +29,25 @@ export const pemesananLayananRouter = createTRPCRouter({
       sameDay(v.createdAt, date)
     );
 
+    // const   pending: 'pending';
+    // processing: 'processing';
+    // success: 'success';
+    // failed: 'failed';
+
+    const pending = allPemesananLayanan.filter((v) => v.status === "pending");
+    const processing = allPemesananLayanan.filter(
+      (v) => v.status === "processing"
+    );
+    const success = allPemesananLayanan.filter((v) => v.status === "success");
+    const failed = allPemesananLayanan.filter((v) => v.status === "failed");
+
     return {
       todayPemesananLayanan,
       allPemesananLayanan,
+      success,
+      processing,
+      pending,
+      failed,
     };
   }),
 
