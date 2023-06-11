@@ -1,13 +1,10 @@
-"use client"
+import * as React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { useForm } from "react-hook-form";
 
-import * as React from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { signIn } from "next-auth/react"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-
-import { cn } from "~/utils/utils"
-import { Button } from "~/components/ui/button"
+import { cn } from "~/utils/utils";
+import { Button } from "~/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,19 +12,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form"
-import { Input } from "~/components/ui/input"
-import { Icons } from "~/components/icons"
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import { Icons } from "~/components/icons";
+import { formLoginSchema } from "~/types/login";
+import { type z } from "zod";
 
-const formLoginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-})
-
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formLoginSchema>>({
@@ -36,21 +30,26 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       email: "petcare.admin@gmail.com",
       password: "petcare0000",
     },
-  })
+  });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formLoginSchema>) {
-    void signIn("credentials", {
+  async function onSubmit(values: z.infer<typeof formLoginSchema>) {
+    setIsLoading(v => !v)
+    void (await signIn("credentials", {
       ...values,
       redirect: true,
       callbackUrl: "/",
-    })
+    }));
+    setIsLoading(v => !v)
   }
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8"
+        >
           <div className="grid gap-2">
             <div className="mb-1">
               <FormField
@@ -111,11 +110,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         Googel
       </Button>
     </div>
-  )
+  );
 }
 
-{
-  /* <form onSubmit={onSubmit}>
+// {
+/* <form onSubmit={onSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
@@ -139,7 +138,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </Button>
         </div>
       </form> */
-}
-{
-  /* Form */
-}
+// }
+// {
+/* Form */
+// }
