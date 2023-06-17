@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-"use client"
+ 
 
 import * as React from "react"
 import * as LabelPrimitive from "@radix-ui/react-label"
