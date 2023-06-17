@@ -1,8 +1,6 @@
 // import { type RelawanUserRole } from "@prisma/client";
 
 // import { z } from "zod";
-
-import { Status } from "@prisma/client";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 // import { dummyRandomAnimal } from "~/types/pemesanan-layanan";
@@ -25,29 +23,105 @@ export const pemesananLayananRouter = createTRPCRouter({
 
     const date = new Date(0);
 
-    const todayPemesananLayanan = allPemesananLayanan.filter((v) =>
+    ////
+    const allLayananGrouming = allPemesananLayanan.filter(
+      (v) => v.layananGroumingId != null
+    );
+
+    const todayPemesananLayananGrouming = allLayananGrouming.filter((v) =>
       sameDay(v.createdAt, date)
     );
 
-    // const   pending: 'pending';
-    // processing: 'processing';
-    // success: 'success';
-    // failed: 'failed';
-
-    const pending = allPemesananLayanan.filter((v) => v.status === "pending");
-    const processing = allPemesananLayanan.filter(
+    const pendingGrouming = allLayananGrouming.filter(
+      (v) => v.status === "pending"
+    );
+    const processingGrouming = allLayananGrouming.filter(
       (v) => v.status === "processing"
     );
-    const success = allPemesananLayanan.filter((v) => v.status === "success");
-    const failed = allPemesananLayanan.filter((v) => v.status === "failed");
+    const successGrouming = allLayananGrouming.filter(
+      (v) => v.status === "success"
+    );
+    const failedGrouming = allLayananGrouming.filter(
+      (v) => v.status === "failed"
+    );
+
+    ////
+    const allLayananKesehatan = allPemesananLayanan.filter(
+      (v) => v.layananKesehatanId != null
+    );
+
+    const todayPemesananLayananKesehatan = allLayananKesehatan.filter((v) =>
+      sameDay(v.createdAt, date)
+    );
+
+    const pendingKesehatan = allLayananKesehatan.filter(
+      (v) => v.status === "pending"
+    );
+    const processingKesehatan = allLayananKesehatan.filter(
+      (v) => v.status === "processing"
+    );
+    const successKesehatan = allLayananKesehatan.filter(
+      (v) => v.status === "success"
+    );
+    const failedKesehatan = allLayananKesehatan.filter(
+      (v) => v.status === "failed"
+    );
+
+    /////
+    const allLayananKonsultasi = allPemesananLayanan.filter(
+      (v) => v.layananKonsultasiId != null
+    );
+
+    const todayPemesananLayananKonsultasi = allLayananKonsultasi.filter((v) =>
+      sameDay(v.createdAt, date)
+    );
+
+    const pendingKonsultasi = allLayananKonsultasi.filter(
+      (v) => v.status === "pending"
+    );
+    const processingKonsultasi = allLayananKonsultasi.filter(
+      (v) => v.status === "processing"
+    );
+    const successKonsultasi = allLayananKonsultasi.filter(
+      (v) => v.status === "success"
+    );
+    const failedKonsultasi = allLayananKonsultasi.filter(
+      (v) => v.status === "failed"
+    );
+
+    // allPemesananLayanan: data.layananGrouming.allLayananGrouming,
+    // todayPemesananLayanan:
+    //   data.layananGrouming.todayPemesananLayananGrouming,
+    // failed: data.layananGrouming.failedGrouming,
+    // pending: data.layananGrouming.pendingGrouming,
+    // processing: data.layananGrouming.pendingGrouming,
+    // success: data.layananGrouming.successGrouming,
 
     return {
-      todayPemesananLayanan,
-      allPemesananLayanan,
-      success,
-      processing,
-      pending,
-      failed,
+      layananGrouming: {
+        todayPemesananLayanan: todayPemesananLayananGrouming,
+        allPemesananLayanan: allLayananGrouming,
+        success: successGrouming,
+        processing: processingGrouming,
+        pending: pendingGrouming,
+        failed: failedGrouming,
+      },
+      layananKesehatan: {
+        allPemesananLayanan: allLayananKesehatan,
+        todayPemesananLayanan: todayPemesananLayananKesehatan,
+        success: successKesehatan,
+        processing: processingKesehatan,
+        pending: pendingKesehatan,
+        failed: failedKesehatan,
+      },
+      layananKonsultasi: {
+        allPemesananLayanan: allLayananKonsultasi,
+        todayPemesananLayanan: todayPemesananLayananKonsultasi,
+        success: successKonsultasi,
+        processing: processingKonsultasi,
+        pending: pendingKonsultasi,
+        failed: failedKonsultasi,
+      },
     };
   }),
 

@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { SiteHeader } from "~/components/site-header";
 import { columns } from "~/components/home/table-layanan/column";
 import { DataTable } from "~/components/data-table";
@@ -7,7 +7,25 @@ import { api } from "~/utils/api";
 import { Separator } from "~/components/ui/separator";
 import { Button } from "~/components/ui/button";
 
+import {
+  type LayananGrouming,
+  type LayananKesehatan,
+  type LayananKonsultasi,
+  type PemesananLayanan,
+  type User,
+} from "@prisma/client";
+
 const index = () => {
+  const { data, isLoading, isError, error } =
+    api.pemesananLayanan.getAll.useQuery();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>{error.message}</div>;
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [layanan, setLayanan] = useState(data.layananGrouming);
+
+
   return (
     <div>
       <SiteHeader />
@@ -19,7 +37,7 @@ const index = () => {
           </div>
           {/* <Separator className="mx-10 w-[2px] h-full" orientation="vertical"/> */}
           <div className="flex-1">
-            <Content />
+            <Content data={layanan} />
           </div>
         </div>
       </section>
@@ -27,14 +45,27 @@ const index = () => {
   );
 };
 
-const Content = () => {
-  const { data, isLoading, isError, error } =
-    api.pemesananLayanan.getAll.useQuery();
+type IContent = (PemesananLayanan & {
+  layananGrouming: LayananGrouming | null;
+  user: User;
+  LayananKesehatan: LayananKesehatan | null;
+  LayananKonsultasi: LayananKonsultasi | null;
+})[];
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>{error.message}</div>;
+interface IContentProps {
+  data: {
+    todayPemesananLayanan: IContent;
+    allPemesananLayanan: IContent;
+    processing: IContent;
+    pending: IContent;
+    success: IContent;
+    failed: IContent;
+  };
+}
+
+const Content = ({ data }: IContentProps) => {
   return (
-    <Tabs defaultValue="today" orientation="horizontal">
+    <Tabs orientation="horizontal" defaultValue="today">
       <TabsList>
         <TabsTrigger value="today">
           Today {data.todayPemesananLayanan.length}
