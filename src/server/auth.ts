@@ -47,7 +47,7 @@ export const authOptions: NextAuthOptions = {
   //   }),
   // },
   // adapter: PrismaAdapter(prisma),
-  debug: true,
+  // debug: true,
   session: {
     strategy: "jwt",
   },

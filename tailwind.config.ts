@@ -76,12 +76,3 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
-
-
-// export default {
-//   content: ["./src/**/*.{js,ts,jsx,tsx}"],
-//   theme: {
-//     extend: {},
-//   },
-//   plugins: [],
-// } satisfies Config;
