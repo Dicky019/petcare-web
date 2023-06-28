@@ -26,3 +26,13 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 ## How do I deploy this?
 
 Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+
+
+### note 
+
+- c,u,d pemesanan
+- c,u,d jadwal
+
+
+$ git config --global user.name "Dicky"
+$ git config --global user.email dicky93darmawan@gmail.com

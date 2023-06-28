@@ -1,22 +1,20 @@
-import { useState } from "react";
-import { SiteHeader } from "~/components/site-header";
-import { api } from "~/utils/api";
 import { Separator } from "~/components/ui/separator";
-import { useRouter } from "next/router";
-import { Content } from "~/components/home/content";
+import { useState } from "react";
 import { SideBar } from "~/components/side-bar";
+import { SiteHeader } from "~/components/site-header";
+import { useRouter } from "next/router";
+import { api } from "~/utils/api";
+import { Content } from "~/components/jadwal-layanan/content";
 
-const HomePage = () => {
+const JadwalPage = () => {
   const { data, isLoading, isError, error } =
-    api.pemesananLayanan.getAll.useQuery();
+    api.jadwalLayanan.getAll.useQuery();
 
+  const [layanan, setLayanan] = useState(data?.layananKesehatan);
 
-    const [layanan, setLayanan] = useState(data?.layananKesehatan);
-    
-    const { query } = useRouter();
+  const { query } = useRouter();
 
   const queryLayanan = query["layanan"] ?? "kesehatan";
-  
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>{error.message}</div>;
@@ -35,7 +33,6 @@ const HomePage = () => {
   ) => {
     void setLayanan(changeLayanan);
   };
-
   return (
     <>
       <SiteHeader />
@@ -43,15 +40,9 @@ const HomePage = () => {
         {/* <button onClick={() => void mutate()}>Add</button> */}
         <div className="flex h-40 space-x-4">
           <SideBar
-            layananKesehatan={() =>
-              void changeLayanan(data?.layananKesehatan)
-            }
-            layananGrooming={() =>
-              void changeLayanan(data?.layananGrouming)
-            }
-            layananKonsultasi={() =>
-              void changeLayanan(data?.layananKonsultasi)
-            }
+            layananKesehatan={() => void changeLayanan(data.layananKesehatan)}
+            layananGrooming={() => void changeLayanan(data.layananGrouming)}
+            layananKonsultasi={() => void changeLayanan(data.layananKonsultasi)}
           />
           <Separator orientation="vertical" />
           <div className="flex-1">
@@ -63,4 +54,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default JadwalPage;

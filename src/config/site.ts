@@ -7,8 +7,12 @@ export const siteConfig = {
   mainNav:  [
     
     {
-      title: "Pemesan",
+      title: "Pemesanan",
       href: "/",
+    },
+    {
+      title: "Jadwal Layanan",
+      href: "/jadwal-layanan",
     },
     {
       title: "Users",

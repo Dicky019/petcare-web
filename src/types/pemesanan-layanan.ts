@@ -19,9 +19,9 @@ import { type inferRouterOutputs } from "@trpc/server"
 // //   noHP              String
 
 type RouterOutput = inferRouterOutputs<AppRouter>
-type allUserOutput = RouterOutput["pemesananLayanan"]["getAll"]
+type allUserOutput = RouterOutput["pemesananLayanan"]["getAll"]["layananKesehatan"]['allPemesananLayanan']
 
-export type IPemesananLayanan = allUserOutput["allPemesananLayanan"][number]
+export type IPemesananLayanan = allUserOutput[number]
 
 // const animal = {
 //   kucing: {
