@@ -33,13 +33,17 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  name : string
+  name: string;
+  isActiveAdd?: boolean;
+  onCLickAdd?: () => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  name
+  name,
+  onCLickAdd,
+  isActiveAdd = true,
 }: // sortKey
 DataTableProps<TData, TValue>) {
   // const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -126,9 +130,13 @@ DataTableProps<TData, TValue>) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  <div className="flex flex-col justify-center items-center gap-y-4 font-bold">
+                  <div className="flex flex-col items-center justify-center gap-y-4 font-bold">
                     <span>{name} No results.</span>
-                    <Button className="flex-none w-52">Add {name}</Button>
+                    {isActiveAdd && (
+                      <Button className="w-52 flex-none" onClick={onCLickAdd}>
+                        Add {name}
+                      </Button>
+                    )}
                   </div>
                 </TableCell>
               </TableRow>

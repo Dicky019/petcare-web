@@ -2,7 +2,7 @@ import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 import { api } from "~/utils/api";
-import { type Metadata } from "next";
+import { Toaster } from 'react-hot-toast';
 import "~/styles/globals.css";
 import { ThemeProvider } from "~/components/theme-provider";
 import { TailwindIndicator } from "~/components/tailwind-indicator";
@@ -34,6 +34,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Component {...pageProps} />
           <TailwindIndicator />
+          <Toaster/>
         </ThemeProvider>
     </SessionProvider>
   );

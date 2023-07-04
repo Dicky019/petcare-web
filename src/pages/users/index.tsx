@@ -33,16 +33,16 @@ const index = () => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="today">
-            <DataTable columns={columns} data={data.todayUsers} />
+            <DataTable name="User Today" columns={columns} data={data.todayUsers} />
           </TabsContent>
           <TabsContent value="all">
-            <DataTable columns={columns} data={data.allUsers} />
+            <DataTable name="User All" columns={columns} data={data.allUsers} />
           </TabsContent>
           <TabsContent value="active">
-            <DataTable columns={columns} data={data.isActive} />
+            <DataTable name="User Active" columns={columns} data={data.isActive} />
           </TabsContent>
           <TabsContent value="non-active">
-            <DataTable columns={columns} data={data.isNotActive} />
+            <DataTable name="User Non Active" columns={columns} data={data.isNotActive} />
           </TabsContent>
         </Tabs>
         {/* <button onClick={() => void mutate()}>Add</button> */}

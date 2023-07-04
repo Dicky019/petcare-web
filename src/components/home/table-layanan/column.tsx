@@ -1,4 +1,4 @@
-import { type Status, type User } from "@prisma/client";
+import { Status, type User } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
@@ -15,8 +15,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
+import { api } from "~/utils/api";
+import toast from "react-hot-toast";
 
 export const columns: ColumnDef<IPemesananLayanan>[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+  },
   {
     accessorKey: "status",
     header: "Status",
@@ -38,7 +44,7 @@ export const columns: ColumnDef<IPemesananLayanan>[] = [
     header: "User",
     cell: ({ row }) => {
       const user = row.getValue<User>("user");
-      const avatarFallback = (user.name ?? "")
+      const avatarFallback = (user?.name ?? "")
         .split(" ", 2)
         .map((v) => v[0])
         .join("");
@@ -46,14 +52,16 @@ export const columns: ColumnDef<IPemesananLayanan>[] = [
         <div className="flex flex-row gap-x-3 align-middle font-medium">
           <Avatar>
             <AvatarImage
-              src={user.image || "https://github.com/shadcn.png"}
-              alt={user.name ?? "@shadcn"}
+              src={user?.image || "https://github.com/shadcn.png"}
+              alt={user?.name ?? "@shadcn"}
             />
             <AvatarFallback>{avatarFallback}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col gap-y-1">
-            <div>{user.name}</div>
-            <div className="text-xs text-gray-500">{user.email}</div>
+            <div>{user?.name ?? "shadcn"}</div>
+            <div className="text-xs text-gray-500">
+              {user?.email ?? "shadcn@gmail.com"}
+            </div>
           </div>
         </div>
       );
@@ -88,8 +96,43 @@ export const columns: ColumnDef<IPemesananLayanan>[] = [
   },
   {
     id: "actions",
-    cell: () => {
+    cell: ({ row }) => {
       // const payment = row.original;
+
+      const listStatus = [
+        Status.success,
+        Status.processing,
+        Status.pending,
+        Status.failed,
+      ];
+      const id = row.getValue<string>("id");
+      console.log({ id });
+
+      const status = row.getValue<Status>("status");
+
+      const trpc = api.useContext();
+
+      const { mutate } = api.pemesananLayanan.changeStatus.useMutation({
+        onSettled: async (data, error) => {
+          error && void toast.error(error?.message);
+          data && void toast.success(data.user.name);
+          await trpc.pemesananLayanan.getAll.invalidate();
+        },
+      });
+
+      const updateStatus = (status: Status) =>
+        mutate({
+          id,
+          status,
+        });
+
+      const listChangeStatus = listStatus
+        .filter((filter) => filter != status)
+        .map((v) => (
+          <DropdownMenuItem key={v} onClick={() => updateStatus(v)}>
+            Change Status {v}
+          </DropdownMenuItem>
+        ));
 
       return (
         <DropdownMenu>
@@ -101,9 +144,7 @@ export const columns: ColumnDef<IPemesananLayanan>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Change Status</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Update</DropdownMenuItem>
+            {listChangeStatus}
             <DropdownMenuItem>Delete</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View</DropdownMenuItem>
