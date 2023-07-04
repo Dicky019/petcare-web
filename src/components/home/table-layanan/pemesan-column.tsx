@@ -18,11 +18,7 @@ import {
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 
-export const columns: ColumnDef<IPemesananLayanan>[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
+export const pemesanColumns:  ColumnDef<IPemesananLayanan>[]  = [
   {
     accessorKey: "status",
     header: "Status",
@@ -93,11 +89,15 @@ export const columns: ColumnDef<IPemesananLayanan>[] = [
   {
     accessorKey: "keluhan",
     header: () => <div className="text-right">Keluhan</div>,
+    cell: ({ row }) => {
+      const jenisKelaminHewan = row.getValue<string>("keluhan");
+      return jenisKelaminHewan;
+    },
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      // const payment = row.original;
+      const pemesananLayanan = row.original;
 
       const listStatus = [
         Status.success,
@@ -105,10 +105,10 @@ export const columns: ColumnDef<IPemesananLayanan>[] = [
         Status.pending,
         Status.failed,
       ];
-      const id = row.getValue<string>("id");
-      console.log({ id });
 
-      const status = row.getValue<Status>("status");
+      const status = pemesananLayanan.status;
+      const id = pemesananLayanan.id;
+      console.log({ id });
 
       const trpc = api.useContext();
 

@@ -12,7 +12,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { Button } from "~/components/ui/button";
+import { Button, buttonVariants } from "~/components/ui/button";
 
 import {
   Table,
@@ -28,22 +28,21 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
+import Link from "next/link";
 // import { Input } from "~/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   name: string;
-  isActiveAdd?: boolean;
-  onCLickAdd?: () => void;
+  onClickAdd?: () => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   name,
-  onCLickAdd,
-  isActiveAdd = true,
+  onClickAdd,
 }: // sortKey
 DataTableProps<TData, TValue>) {
   // const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -132,8 +131,8 @@ DataTableProps<TData, TValue>) {
                 >
                   <div className="flex flex-col items-center justify-center gap-y-4 font-bold">
                     <span>{name} No results.</span>
-                    {isActiveAdd && (
-                      <Button className="w-52 flex-none" onClick={onCLickAdd}>
+                    {onClickAdd && (
+                      <Button size={"lg"} onClick={onClickAdd}>
                         Add {name}
                       </Button>
                     )}

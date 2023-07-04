@@ -1,11 +1,8 @@
 import Image from "next/image"
 import { Command } from "lucide-react"
 
-import { cn } from "~/utils/utils"
-import { buttonVariants } from "~/components/ui/button"
 import { UserAuthForm } from "~/components/login/user-auth-form"
-import Head from "next/head"
-import { Metadata } from "next"
+import { type Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Login",

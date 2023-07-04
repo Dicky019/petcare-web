@@ -1,11 +1,10 @@
-import { columns } from "~/components/home/table-layanan/column";
+
 import { DataTable } from "~/components/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
 import { Separator } from "../ui/separator";
 import type { IPemesananLayanan } from "~/types/pemesanan-layanan";
-import { api } from "~/utils/api";
-import toast from "react-hot-toast";
+import { type ColumnDef } from "@tanstack/react-table";
 
 type IContent = IPemesananLayanan[];
 
@@ -18,17 +17,18 @@ interface IContentProps {
     success: IContent;
     failed: IContent;
   };
+  pemesanColumns: ColumnDef<IPemesananLayanan>[]
 }
 
-export const Content = ({ data }: IContentProps) => {
-  const trpc = api.useContext();
-  const { mutate } = api.pemesananLayanan.create.useMutation({
-    onSettled: async (data, error) => {
-      error &&  void toast.error(error?.message);
-      data &&  void toast.success("success Add");
-      await trpc.pemesananLayanan.getAll.invalidate();
-    },
-  });
+export const Content = ({ data,pemesanColumns }: IContentProps) => {
+  // const trpc = api.useContext();
+  // const { mutate } = api.pemesananLayanan.create.useMutation({
+  //   onSettled: async (data, error) => {
+  //     error && void toast.error(error?.message);
+  //     data && void toast.success("success Add");
+  //     await trpc.pemesananLayanan.getAll.invalidate();
+  //   },
+  // });
   return (
     <Tabs defaultValue="today">
       <TabsList>
@@ -48,53 +48,29 @@ export const Content = ({ data }: IContentProps) => {
       </TabsList>
       <TabsContent value="today">
         <DataTable
-          onCLickAdd={() => {
-            mutate();
-          }}
-          columns={columns}
+          columns={pemesanColumns}
           data={data.todayPemesananLayanan}
           name="Pemesanan"
         />
       </TabsContent>
       <TabsContent value="all">
         <DataTable
-          isActiveAdd={false}
-          columns={columns}
+          columns={pemesanColumns}
           data={data.allPemesananLayanan}
           name="Pemesanan"
         />
       </TabsContent>
       <TabsContent value="success">
-        <DataTable
-          isActiveAdd={false}
-          columns={columns}
-          data={data.success}
-          name="Pemesanan"
-        />
+        <DataTable columns={pemesanColumns} data={data.success} name="Pemesanan" />
       </TabsContent>
       <TabsContent value="processing">
-        <DataTable
-          isActiveAdd={false}
-          columns={columns}
-          data={data.processing}
-          name="Pemesanan"
-        />
+        <DataTable columns={pemesanColumns} data={data.processing} name="Pemesanan" />
       </TabsContent>
       <TabsContent value="pending">
-        <DataTable
-          isActiveAdd={false}
-          columns={columns}
-          data={data.pending}
-          name="Pemesanan"
-        />
+        <DataTable columns={pemesanColumns} data={data.pending} name="Pemesanan" />
       </TabsContent>
       <TabsContent value="failed">
-        <DataTable
-          isActiveAdd={false}
-          columns={columns}
-          data={data.failed}
-          name="Pemesanan"
-        />
+        <DataTable columns={pemesanColumns} data={data.failed} name="Pemesanan" />
       </TabsContent>
     </Tabs>
   );

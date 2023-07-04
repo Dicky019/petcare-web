@@ -45,7 +45,7 @@ const JadwalPage = () => {
             layananKonsultasi={() => void changeLayanan(data.layananKonsultasi)}
           />
           <Separator orientation="vertical" />
-          <div className="flex-1">
+          <div className="flex-1" >
             <Content data={layanan ?? init} />
           </div>
         </div>
