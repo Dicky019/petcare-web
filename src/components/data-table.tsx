@@ -29,20 +29,21 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import Link from "next/link";
+import { DialogForm } from "./jadwal-layanan/dialog/dialog-form";
 // import { Input } from "~/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   name: string;
-  onClickAdd?: () => void;
+  isActive?: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   name,
-  onClickAdd,
+  isActive = false,
 }: // sortKey
 DataTableProps<TData, TValue>) {
   // const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -131,10 +132,10 @@ DataTableProps<TData, TValue>) {
                 >
                   <div className="flex flex-col items-center justify-center gap-y-4 font-bold">
                     <span>{name} No results.</span>
-                    {onClickAdd && (
-                      <Button size={"lg"} onClick={onClickAdd}>
-                        Add {name}
-                      </Button>
+                    {isActive && (
+                      <DialogForm>
+                        <Button size={"lg"}>Add {name}</Button>
+                      </DialogForm>
                     )}
                   </div>
                 </TableCell>

@@ -28,8 +28,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const form = useForm<z.infer<typeof formLoginSchema>>({
     resolver: zodResolver(formLoginSchema),
     defaultValues: {
-      // email: "petcare.admin@gmail.com",
-      // password: "petcare0000",
       email : "",
       password : ""
     },

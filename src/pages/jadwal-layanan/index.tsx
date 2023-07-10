@@ -5,6 +5,8 @@ import { SiteHeader } from "~/components/site-header";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { Content } from "~/components/jadwal-layanan/content";
+import { DialogForm } from "~/components/jadwal-layanan/dialog/dialog-form";
+import { Button } from "~/components/ui/button";
 
 const JadwalPage = () => {
   const { data, isLoading, isError, error } =
@@ -28,9 +30,7 @@ const JadwalPage = () => {
       ? data.layananGrouming
       : data.layananKesehatan;
 
-  const changeLayanan = (
-    changeLayanan: typeof data.layananKesehatan,
-  ) => {
+  const changeLayanan = (changeLayanan: typeof data.layananKesehatan) => {
     void setLayanan(changeLayanan);
   };
   return (
@@ -38,14 +38,17 @@ const JadwalPage = () => {
       <SiteHeader />
       <section className="container mx-auto grid items-center gap-6 pb-8 pt-4 md:py-8">
         {/* <button onClick={() => void mutate()}>Add</button> */}
-        <div className="flex h-40 space-x-4">
+        
+        <div className="flex h-52 space-x-4">
           <SideBar
             layananKesehatan={() => void changeLayanan(data.layananKesehatan)}
             layananGrooming={() => void changeLayanan(data.layananGrouming)}
             layananKonsultasi={() => void changeLayanan(data.layananKonsultasi)}
+            create={true}
           />
+
           <Separator orientation="vertical" />
-          <div className="flex-1" >
+          <div className="flex-1">
             <Content data={layanan ?? init} />
           </div>
         </div>

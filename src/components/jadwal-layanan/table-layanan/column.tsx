@@ -11,20 +11,30 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { type IJadwalLayanan } from "~/types/jadwal-layanan";
+import { DialogForm } from "../dialog/dialog-form";
+import { displayJam } from "~/utils/function";
 
 export const columns: ColumnDef<IJadwalLayanan>[] = [
   {
     accessorKey: "hari",
     header: "Hari",
+    cell: ({ row }) => {
+      const hari = row.getValue<string>("hari").toUpperCase();
+      return hari;
+    },
   },
   {
     accessorKey: "jam",
     header: "Jam",
+    cell: ({ row }) => {
+      const jam = row.getValue<string>("jam");
+      return displayJam(jam);
+    },
   },
   {
     id: "actions",
-    cell: () => {
-      // const payment = row.original;
+    cell: ({ row }) => {
+      const data = row.original;
 
       return (
         <DropdownMenu>
@@ -38,7 +48,9 @@ export const columns: ColumnDef<IJadwalLayanan>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>Change Status</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Update</DropdownMenuItem>
+            <DialogForm data={data}>
+              <DropdownMenuItem>Update</DropdownMenuItem>
+            </DialogForm>
             <DropdownMenuItem>Delete</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View</DropdownMenuItem>

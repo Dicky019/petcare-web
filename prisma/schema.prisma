@@ -120,8 +120,8 @@ enum Hari {
     rabu
     kamis
     jumat
-    sabtu
-    minggu
+    // sabtu
+    // minggu
 }
 
 // Necessary for Next auth

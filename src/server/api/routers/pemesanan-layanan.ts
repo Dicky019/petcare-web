@@ -1,8 +1,8 @@
-import { type Prisma, type PrismaClient, Status } from "@prisma/client";
+import { Status } from "@prisma/client";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { pemesananLayanan, sameDay } from "~/utils/function";
-import { faker } from "@faker-js/faker";
+import { sameDay } from "~/utils/function";
+import { layananFake, getAllPemesananLayanan } from "~/service/pemesanan-layanan";
 
 const date = new Date();
 
@@ -22,9 +22,9 @@ export const pemesananLayananRouter = createTRPCRouter({
         data: {
           status: status as Status,
         },
-        select : {
-          user: true
-        }
+        select: {
+          user: true,
+        },
       });
     }),
 
@@ -36,30 +36,30 @@ export const pemesananLayananRouter = createTRPCRouter({
 
   getAll: publicProcedure.query(async ({ ctx }) => {
     const [allLayananGrooming, allLayananKesehatan, allLayananKonsultasi] =
-      await pemesananLayanan({
+      await getAllPemesananLayanan({
         prisma: ctx.prisma,
       });
 
     const [successGrouming, successKesehatan, successKonsultasi] =
-      await pemesananLayanan({
+      await getAllPemesananLayanan({
         prisma: ctx.prisma,
         status: Status.success,
       });
 
     const [pendingGrouming, pendingKesehatan, pendingKonsultasi] =
-      await pemesananLayanan({
+      await getAllPemesananLayanan({
         prisma: ctx.prisma,
         status: Status.pending,
       });
 
     const [processingGrouming, processingKesehatan, processingKonsultasi] =
-      await pemesananLayanan({
+      await getAllPemesananLayanan({
         prisma: ctx.prisma,
         status: Status.processing,
       });
 
     const [failedGrouming, failedKesehatan, failedKonsultasi] =
-      await pemesananLayanan({
+      await getAllPemesananLayanan({
         prisma: ctx.prisma,
         status: Status.failed,
       });
@@ -104,44 +104,3 @@ export const pemesananLayananRouter = createTRPCRouter({
     };
   }),
 });
-
-interface IPembelajaranProps {
-  prisma: PrismaClient<
-    Prisma.PrismaClientOptions,
-    never,
-    Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
-  >;
-}
-
-async function layananFake({ prisma }: IPembelajaranProps) {
-  const user = await prisma.user.create({
-    data: {
-      name: faker.person.fullName(),
-      email: faker.internet.email(),
-      image: faker.internet.avatar(),
-      emailVerified: date,
-      isActive: faker.datatype.boolean(),
-    },
-  });
-
-  const pemesananLayanan = await prisma.pemesananLayanan.create({
-    data: {
-      noHP: "081355834769",
-      umurHewan: "16",
-      status: Status.processing,
-      namaHewan: "Hewan",
-      keluhan: "loremmmmm",
-      jenisKelaminHewan: "betina",
-      jenisLayanan: "grooming",
-      kategoriHewan: "changeStatus",
-      userId: user.id,
-    },
-  });
-
-  await prisma.layananGrouming.create({
-    data: {
-      pilihJamGrouming: "jam09_12",
-      pemesananLayananId: pemesananLayanan.id,
-    },
-  });
-}

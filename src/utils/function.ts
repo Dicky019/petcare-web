@@ -1,10 +1,3 @@
-import {
-  JenisLayanan,
-  type Prisma,
-  type PrismaClient,
-  type Status,
-} from "@prisma/client";
-
 export function sameDay(d1: Date, d2: Date) {
   console.log({d1,d2});
   
@@ -15,59 +8,7 @@ export function sameDay(d1: Date, d2: Date) {
   );
 }
 
-interface IPemesananLayananProps {
-  prisma: PrismaClient<
-    Prisma.PrismaClientOptions,
-    never,
-    Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
-  >;
-  status?: Status;
-}
-
-export const pemesananLayanan = async ({
-  prisma,
-  status,
-}: IPemesananLayananProps) => {
-  const whereStatus = status && {
-    status,
-  };
-
-  const select = { select: {
-    user: true,
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-    userId: true,
-    jenisLayanan: true,
-    namaHewan: true,
-    kategoriHewan: true,
-    umurHewan: true,
-    jenisKelaminHewan: true,
-    keluhan: true,
-    noHP: true,
-    status: true,
-  },}
-  return await Promise.all([
-    prisma.pemesananLayanan.findMany({
-      where: {
-        jenisLayanan: JenisLayanan.grooming,
-        ...whereStatus,
-      },
-     ...select,
-    }),
-    prisma.pemesananLayanan.findMany({
-      where: {
-        jenisLayanan: JenisLayanan.kesehatan,
-        ...whereStatus,
-      },
-      ...select,
-    }),
-    prisma.pemesananLayanan.findMany({
-      where: {
-        jenisLayanan: JenisLayanan.konsultasi,
-        ...whereStatus,
-      },
-      ...select,
-    }),
-  ]);
+export const displayJam = (value: string) => {
+  const jam = value.split("jam").join("").split("_").map(v => `${v}.00`).join("-");
+  return `Jam ${jam}`;
 };

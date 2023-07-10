@@ -1,42 +1,14 @@
-import { JenisLayanan } from "@prisma/client";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-
+import { type Hari, type JenisLayanan } from "@prisma/client";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { getAllJadwalLayanan } from "~/service/jadwal-layanan";
+import { formCreateSchema } from "~/types/jadwal-layanan";
 
 export const jadwalLayananRouter = createTRPCRouter({
-  getAll: publicProcedure.query(async ({ ctx }) => {
-    const [allLayananGrooming,allLayananKesehatan,allLayananKonsultasi ] = await Promise.all([
-       ctx.prisma.jadwalLayanan.findMany({
-        where : {
-          jenisLayanan : JenisLayanan.grooming
-        }
-    }),
-       ctx.prisma.jadwalLayanan.findMany({
-        where : {
-          jenisLayanan : JenisLayanan.kesehatan
-        }
-    }),
-       ctx.prisma.jadwalLayanan.findMany({
-        where : {
-          jenisLayanan : JenisLayanan.konsultasi
-        }
-    }),
-
-    ])
-
-    // ////
-    // const allLayananGrooming = allPemesananLayanan.filter(
-    //   (v) => v.jenisLayanan === JenisLayanan.grooming
-    // );
-
-    // ////
-    // const allLayananKesehatan = allPemesananLayanan.filter(
-    //   (v) => v.jenisLayanan === JenisLayanan.kesehatan
-    // );
-
-    // /////
-    // const allLayananKonsultasi = allPemesananLayanan.filter(
-    //   (v) => v.jenisLayanan === JenisLayanan.konsultasi
-    // );
+  getAll: protectedProcedure.query(async ({ ctx }) => {
+    const [allLayananGrooming, allLayananKesehatan, allLayananKonsultasi] =
+      await getAllJadwalLayanan({
+        prisma: ctx.prisma,
+      });
 
     return {
       layananGrouming: allLayananGrooming,
@@ -45,5 +17,18 @@ export const jadwalLayananRouter = createTRPCRouter({
     };
   }),
 
-//  create : 
+  create: protectedProcedure
+    .input(formCreateSchema)
+    .mutation(({ ctx, input }) => {
+      const jenisLayanan = input.jenisLayanan as JenisLayanan;
+      const hari = input.hari as Hari;
+      const jam = input.jam;
+      return ctx.prisma.jadwalLayanan.create({
+        data: {
+          jenisLayanan,
+          jam,
+          hari,
+        },
+      });
+    }),
 });

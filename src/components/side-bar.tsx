@@ -1,11 +1,14 @@
 import { useRouter } from "next/router";
 import { Button } from "./ui/button";
+import { DialogForm } from "./jadwal-layanan/dialog/dialog-form";
 
 export const SideBar = ({
   layananGrooming,
   layananKesehatan,
   layananKonsultasi,
+  create,
 }: {
+  create?: boolean;
   layananKesehatan: () => void;
   layananKonsultasi: () => void;
   layananGrooming: () => void;
@@ -14,10 +17,13 @@ export const SideBar = ({
 
   const queryLayanan = query["layanan"] ?? "kesehatan";
 
-  const variant = (isActive : boolean) => isActive ? "default" : "ghost";
+  const variant = (isActive: boolean) => (isActive ? "default" : "ghost");
 
   return (
     <div className="divide-2 flex flex-none flex-col gap-y-3">
+      {create && <DialogForm>
+        <Button >Create</Button>
+      </DialogForm>}
       <Button
         onClick={() => {
           void layananKesehatan();
@@ -45,6 +51,7 @@ export const SideBar = ({
       >
         Layanan Grooming
       </Button>
+      
     </div>
   );
 };
