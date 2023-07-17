@@ -94,9 +94,9 @@ export async function layananFake({ prisma }: IPembelajaranProps) {
     },
   });
 
-  await prisma.layananGrouming.create({
+  await prisma.layananKesehatan.create({
     data: {
-      pilihJamGrouming: "jam09_12",
+      pilihJamKesehatan: "jam09_10",
       pemesananLayananId: pemesananLayanan.id,
     },
   });

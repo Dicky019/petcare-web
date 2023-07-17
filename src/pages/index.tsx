@@ -41,6 +41,7 @@ const HomePage = () => {
     setColumns(initColumns);
     setLayanan(init)
   }, [initColumns, data, init]);
+  const {mutate} = api.pemesananLayanan.create.useMutation()
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>{error.message}</div>;
@@ -62,11 +63,13 @@ const HomePage = () => {
     void setColumns(changeColumns);
   };
 
+
+
   return (
     <>
       <SiteHeader />
       <section className="container mx-auto grid items-center gap-6 pb-8 pt-4 md:py-8">
-        {/* <button onClick={() => void mutate()}>Add</button> */}
+        <button onClick={() => void mutate()}>Add</button>
         <div className="flex h-40 space-x-4">
           <SideBar
             layananKesehatan={() =>

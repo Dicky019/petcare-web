@@ -4,6 +4,9 @@ import { type IPemesananLayanan } from "~/types/pemesanan-layanan";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
 import { RowActions } from "./row-action";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "~/components/ui/hover-card";
+import { Button } from "~/components/ui/button";
+import { SiCodereview } from "react-icons/si";
 
 export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
   {
@@ -77,8 +80,23 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
     accessorKey: "keluhan",
     header: () => <div className="text-right">Keluhan</div>,
     cell: ({ row }) => {
-      const jenisKelaminHewan = row.getValue<string>("keluhan");
-      return jenisKelaminHewan;
+      const keluhan = row.getValue<string>("keluhan");
+      return  (<div className="flex items-center gap-x-2">
+      <div className="text-left max-w-[250px] line-clamp-2 font-medium">
+        {keluhan}
+      </div>
+      <HoverCard>
+        <HoverCardTrigger>
+          <Button size="sm" variant="outline">
+            <SiCodereview />
+          </Button>
+        </HoverCardTrigger>
+        <HoverCardContent className="text-left">
+          <div className="font-semibold mb-1 text-lg">Keluhan</div>
+          <div>{keluhan}</div>
+        </HoverCardContent>
+      </HoverCard>
+    </div>);
     },
   },
   {

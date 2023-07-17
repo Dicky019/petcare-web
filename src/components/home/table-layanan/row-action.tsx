@@ -9,7 +9,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { type IPemesananLayanan } from "~/types/pemesanan-layanan";
@@ -80,8 +79,6 @@ export const RowActions = ({
           <AlertDialogTrigger asChild>
             <DropdownMenuItem>Delete</DropdownMenuItem>
           </AlertDialogTrigger>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>View</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <AlertDialogDelete onContinue={() => deleteMutate(id)} />
