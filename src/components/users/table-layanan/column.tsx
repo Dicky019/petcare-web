@@ -1,31 +1,10 @@
-import { type Status, type User } from "@prisma/client";
+// import { type Status, type User } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
-
-import { type IPemesananLayanan } from "~/types/pemesanan-layanan";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
-import { Button } from "~/components/ui/button";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
 import { type IUsers } from "~/types/users";
 import { RowActions } from "../row-action";
-
-// id: string;
-//     createdAt: Date;
-//     updatedAt: Date;
-//     name: string | null;
-//     email: string | null;
-//     emailVerified: Date | null;
-//     image: string | null;
-//     isActive: boolean;
 
 export const columns: ColumnDef<IUsers>[] = [
   {

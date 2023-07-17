@@ -1,10 +1,10 @@
 import { faker } from "@faker-js/faker";
-import { Hari, JenisLayanan, Status } from "@prisma/client";
+import { type Hari, JenisLayanan, Status } from "@prisma/client";
 import { type Prisma, type PrismaClient } from "@prisma/client";
-import { UseFormReturn } from "react-hook-form";
+import { type UseFormReturn } from "react-hook-form";
 import toast from "react-hot-toast";
-import { z } from "zod";
-import { IJadwalLayanan, formCreateSchema } from "~/types/jadwal-layanan";
+import { type z } from "zod";
+import { type IJadwalLayanan, type formCreateSchema } from "~/types/jadwal-layanan";
 import { api } from "~/utils/api";
 
 interface IPemesananLayananProps {
@@ -229,7 +229,7 @@ export const serviceEditJadwalLayanan = ({ form }: Iform) => {
         () => context.previousJadwalLayanans
       );
     },
-    onSuccess: ({ hari, jam, jenisLayanan }, values) => {
+    onSuccess: ({ hari, jam, jenisLayanan }) => {
       toast.success(`Berhasil Mengupdate ${jenisLayanan} ${hari}, ${jam}`);
       form.reset({
         hari,

@@ -17,7 +17,6 @@ import { Dialog, DialogTrigger } from "~/components/ui/dialog";
 import { AlertDialog } from "~/components/ui/alert-dialog";
 import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
 import { AlertDialogDelete } from "~/components/alert-dialog-delete";
-import { api } from "~/utils/api";
 import { serviceDeleteJadwalLayanan } from "~/service/jadwal-layanan";
 
 export const columns: ColumnDef<IJadwalLayanan>[] = [

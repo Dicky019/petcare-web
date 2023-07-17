@@ -1,4 +1,3 @@
-import { Status } from "@prisma/client";
 import { MoreHorizontal } from "lucide-react";
 import toast from "react-hot-toast";
 import { AlertDialogDelete } from "~/components/alert-dialog-delete";
