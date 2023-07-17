@@ -1,7 +1,8 @@
 import { type Hari, type JenisLayanan } from "@prisma/client";
+import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { getAllJadwalLayanan } from "~/service/jadwal-layanan";
-import { formCreateSchema } from "~/types/jadwal-layanan";
+import { formCreateSchema, formEditSchema } from "~/types/jadwal-layanan";
 
 export const jadwalLayananRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
@@ -31,4 +32,26 @@ export const jadwalLayananRouter = createTRPCRouter({
         },
       });
     }),
+  edit: protectedProcedure.input(formEditSchema).mutation(({ ctx, input }) => {
+    const jenisLayanan = input.jenisLayanan as JenisLayanan;
+    const hari = input.hari as Hari;
+    const jam = input.jam;
+    return ctx.prisma.jadwalLayanan.update({
+      data: {
+        jenisLayanan,
+        jam,
+        hari,
+      },
+      where: {
+        id: input.id,
+      },
+    });
+  }),
+  delete: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
+    return ctx.prisma.jadwalLayanan.delete({
+      where: {
+        id: input,
+      },
+    });
+  }),
 });

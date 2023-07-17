@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 
 import { cn } from "~/utils/utils";
@@ -14,7 +13,6 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
 import { Icons } from "~/components/icons";
 import {
   type IJadwalLayanan,
@@ -24,16 +22,17 @@ import {
 import { type z } from "zod";
 import { SelectForm } from "./dialog-form";
 import { useEffect, useState } from "react";
-import { Hari, type JenisLayanan } from "@prisma/client";
+import { type JenisLayanan } from "@prisma/client";
 import {
   listHariForm,
   listJamGroumingForm,
   listJamKesehatanKonsultasiForm,
   listJenisLayananForm,
 } from "~/utils/data";
-import { api } from "~/utils/api";
-import toast from "react-hot-toast";
-import { serviceCreateJadwalLayanan } from "~/service/jadwal-layanan";
+import {
+  serviceCreateJadwalLayanan,
+  serviceEditJadwalLayanan,
+} from "~/service/jadwal-layanan";
 
 type UserAuthFormProps = {
   data?: IJadwalLayanan;
@@ -84,12 +83,19 @@ export function JadwalLayananForm({
     },
   });
 
-  const { mutateAsync } = serviceCreateJadwalLayanan({ form });
+  const { mutateAsync: create } = serviceCreateJadwalLayanan({ form });
+  const { mutateAsync: edit } = serviceEditJadwalLayanan({ form });
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formCreateSchema>) {
     setIsLoading((v) => !v);
-    await mutateAsync(values);
+    console.log({ data });
+
+    if (data) {
+      await edit({ id: data.id, ...values });
+    } else {
+      await create(values);
+    }
     setIsLoading((v) => !v);
   }
 
@@ -166,7 +172,7 @@ export function JadwalLayananForm({
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Sign In
+              {data ? "Edit" : "Add"}
             </Button>
           </div>
         </form>

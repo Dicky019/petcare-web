@@ -18,3 +18,10 @@ export const formCreateSchema = z.object({
   jam: z.string(),
   hari: z.string(),
 });
+
+export const formEditSchema = z.object({
+  id: z.string(),
+  jenisLayanan: z.string(),
+  jam: z.string(),
+  hari: z.string(),
+});

@@ -1,6 +1,7 @@
 // import { type RelawanUserRole } from "@prisma/client";
 
 // import { z } from "zod";
+import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 import { sameDay } from "~/utils/function";
@@ -26,5 +27,29 @@ export const usersRouter = createTRPCRouter({
       isActive,
       isNotActive,
     };
+  }),
+  changeStatus: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        isActive: z.boolean(),
+      })
+    )
+    .mutation(({ ctx, input: { id, isActive } }) => {
+      return ctx.prisma.user.update({
+        where: {
+          id,
+        },
+        data: {
+          isActive,
+        },
+      });
+    }),
+  delete: publicProcedure.input(z.string()).mutation(({ ctx, input }) => {
+    return ctx.prisma.user.delete({
+      where: {
+        id: input,
+      },
+    });
   }),
 });

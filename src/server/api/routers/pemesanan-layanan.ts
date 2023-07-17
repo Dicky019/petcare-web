@@ -2,7 +2,10 @@ import { Status } from "@prisma/client";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { sameDay } from "~/utils/function";
-import { layananFake, getAllPemesananLayanan } from "~/service/pemesanan-layanan";
+import {
+  layananFake,
+  getAllPemesananLayanan,
+} from "~/service/pemesanan-layanan";
 
 const date = new Date();
 
@@ -22,6 +25,20 @@ export const pemesananLayananRouter = createTRPCRouter({
         data: {
           status: status as Status,
         },
+        select: {
+          user: true,
+        },
+      });
+    }),
+
+  delete: publicProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.pemesananLayanan.delete({
+        where: {
+          id : input,
+        },
+        
         select: {
           user: true,
         },

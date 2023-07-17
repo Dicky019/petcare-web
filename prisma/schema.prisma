@@ -19,7 +19,7 @@ model LayananGrouming {
     id                 String           @id @default(cuid())
     ///
     pilihJamGrouming   PilihJamGrouming
-    PemesananLayanan   PemesananLayanan @relation(fields: [pemesananLayananId], references: [id])
+    PemesananLayanan   PemesananLayanan @relation(fields: [pemesananLayananId], references: [id],onUpdate: Cascade, onDelete: Cascade)
     pemesananLayananId String           @unique
 }
 
@@ -36,7 +36,7 @@ model LayananKesehatan {
     updatedAt          DateTime                    @updatedAt
     ///
     pilihJamKesehatan  PilihJamKesehatanKonsultasi
-    PemesananLayanan   PemesananLayanan            @relation(fields: [pemesananLayananId], references: [id])
+    PemesananLayanan   PemesananLayanan            @relation(fields: [pemesananLayananId], references: [id],onUpdate: Cascade, onDelete: Cascade)
     pemesananLayananId String                      @unique
 }
 
@@ -46,7 +46,7 @@ model LayananKonsultasi {
     updatedAt          DateTime                    @updatedAt
     ///
     pilihJamKesehatan  PilihJamKesehatanKonsultasi
-    PemesananLayanan   PemesananLayanan            @relation(fields: [pemesananLayananId], references: [id])
+    PemesananLayanan   PemesananLayanan            @relation(fields: [pemesananLayananId], references: [id],onUpdate: Cascade, onDelete: Cascade)
     pemesananLayananId String                      @unique
 }
 

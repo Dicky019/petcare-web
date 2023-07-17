@@ -28,10 +28,19 @@ const HomePage = () => {
       : pemesanColumns;
 
   const [columns, setColumns] = useState(pemesanColumns);
+  const init =
+  queryLayanan === "kesehatan"
+    ? data?.layananKesehatan
+    : queryLayanan === "konsultasi"
+    ? data?.layananKonsultasi
+    : queryLayanan === "grooming"
+    ? data?.layananGrouming
+    : data?.layananKesehatan;
 
   useEffect(() => {
     setColumns(initColumns);
-  }, [initColumns]);
+    setLayanan(init)
+  }, [initColumns, data, init]);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>{error.message}</div>;

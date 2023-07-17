@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { DialogForm } from "./jadwal-layanan/dialog/dialog-form";
+import { Dialog } from "./ui/dialog";
 // import { Input } from "~/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
@@ -133,9 +134,11 @@ DataTableProps<TData, TValue>) {
                   <div className="flex flex-col items-center justify-center gap-y-4 font-bold">
                     <span>{name} No results.</span>
                     {isActive && (
-                      <DialogForm>
-                        <Button size={"lg"}>Add {name}</Button>
-                      </DialogForm>
+                      <Dialog>
+                        <DialogForm>
+                          <Button size={"lg"}>Add {name}</Button>
+                        </DialogForm>
+                      </Dialog>
                     )}
                   </div>
                 </TableCell>
