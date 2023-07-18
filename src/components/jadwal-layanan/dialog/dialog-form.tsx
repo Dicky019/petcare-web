@@ -4,7 +4,6 @@ import { type ReactNode } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -27,18 +26,18 @@ interface IDialogFormProps {
 }
 
 export function DialogForm({ data, children }: IDialogFormProps) {
-  const dialogDescriptionEdit =
-    "Make changes to your Jadwal here. Click save when you're done.";
-  const dialogDescriptionAdd =
-    "Make changes to your Jadwal here. Click save when you're done.";
+  // const dialogDescriptionEdit =
+  //   "Make changes to your Jadwal here. Click save when you're done.";
+  // const dialogDescriptionAdd =
+  //   "Make changes to your Jadwal here. Click save when you're done.";
 
   const DialogContentForm = () => (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>{data ? "Edit" : "Add"} Jadwal</DialogTitle>
-        <DialogDescription>
+        <DialogTitle>{data ? "Edit" : "Tambah"} Jadwal</DialogTitle>
+        {/* <DialogDescription>
           {data ? dialogDescriptionEdit : dialogDescriptionAdd}
-        </DialogDescription>
+        </DialogDescription> */}
       </DialogHeader>
       <JadwalLayananForm data={data} />
     </DialogContent>

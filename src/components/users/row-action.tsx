@@ -54,14 +54,12 @@ export const RowActions = ({ user }: { user: IUsers }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          {/* <AlertDialogTrigger asChild> */}
-          <DropdownMenuItem onClick={updateStatus}>
-            Change Status
-          </DropdownMenuItem>
-          {/* </AlertDialogTrigger> */}
           <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={updateStatus}>
+           Change {isActive ? "Active" : "Non Active"}
+          </DropdownMenuItem>
           <AlertDialogTrigger asChild>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem>Hapus</DropdownMenuItem>
           </AlertDialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>

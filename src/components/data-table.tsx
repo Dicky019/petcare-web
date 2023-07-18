@@ -135,7 +135,7 @@ DataTableProps<TData, TValue>) {
                     {isActive && (
                       <Dialog>
                         <DialogForm>
-                          <Button size={"lg"}>Add {name}</Button>
+                          <Button size={"lg"}>Tambah {name}</Button>
                         </DialogForm>
                       </Dialog>
                     )}

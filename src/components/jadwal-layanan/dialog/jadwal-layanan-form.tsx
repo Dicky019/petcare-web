@@ -50,7 +50,7 @@ export function JadwalLayananForm({
   const [listJamForm, setListJamForm] = useState<ISelectItem[]>([]);
 
   const desJam =
-    jenisLayanan === undefined ? "Harus Pilih Jenis Layanan Dulu" : "";
+    jenisLayanan === undefined ? "Pilih Jenis Layanan Lebih Dulu" : "Jam";
 
   const changeJenisLayanan = (v: string) => {
     void form.setValue("jenisLayanan", v);
@@ -152,11 +152,11 @@ export function JadwalLayananForm({
                 name="jam"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Jam {desJam}</FormLabel>
+                    <FormLabel>Jam </FormLabel>
                     <FormControl>
                       <SelectForm
                         id="jam"
-                        placeholder="Jam"
+                        placeholder={desJam}
                         value={field?.value}
                         listItemValue={listJamForm}
                         onChange={changeJam}
@@ -172,7 +172,7 @@ export function JadwalLayananForm({
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
-              {data ? "Edit" : "Add"}
+              {data ? "Edit" : "Tambah"}
             </Button>
           </div>
         </form>

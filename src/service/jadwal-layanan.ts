@@ -1,10 +1,14 @@
 import { faker } from "@faker-js/faker";
 import { type Hari, JenisLayanan, Status } from "@prisma/client";
 import { type Prisma, type PrismaClient } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 import { type UseFormReturn } from "react-hook-form";
 import toast from "react-hot-toast";
 import { type z } from "zod";
-import { type IJadwalLayanan, type formCreateSchema } from "~/types/jadwal-layanan";
+import {
+  type IJadwalLayanan,
+  type formCreateSchema,
+} from "~/types/jadwal-layanan";
 import { api } from "~/utils/api";
 
 interface IPemesananLayananProps {
@@ -38,7 +42,7 @@ export const getAllJadwalLayanan = async ({
   ]);
 };
 
-interface IPembelajaranProps {
+interface IPrismaProps {
   prisma: PrismaClient<
     Prisma.PrismaClientOptions,
     never,
@@ -46,7 +50,31 @@ interface IPembelajaranProps {
   >;
 }
 
-export async function layananFake({ prisma }: IPembelajaranProps) {
+interface ValidatedProps {
+  prisma: IPrismaProps["prisma"];
+  jenisLayanan: JenisLayanan;
+  hari: Hari;
+  jam: string;
+}
+
+export const validated = async ({ prisma, ...value }: ValidatedProps) => {
+  const validated = await prisma.jadwalLayanan.findFirst({
+    where: {
+      ...value,
+    },
+  });
+
+  if (validated) {
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: "Data is Already",
+      // optional: pass the original error to retain stack trace
+      // cause: theError,
+    });
+  }
+};
+
+export async function layananFake({ prisma }: IPrismaProps) {
   const user = await prisma.user.create({
     data: {
       name: faker.person.fullName(),
@@ -137,7 +165,7 @@ export const serviceCreateJadwalLayanan = ({ form }: Iform) => {
     // If the mutation fails,
     // use the context returned from onMutate to roll back
     onError: (err, newJadwalLayanan, context) => {
-      toast.error("An error occured when creating todo");
+      toast.error(err.message);
       // Clear input
       form.reset(newJadwalLayanan);
 
@@ -219,7 +247,7 @@ export const serviceEditJadwalLayanan = ({ form }: Iform) => {
     // If the mutation fails,
     // use the context returned from onMutate to roll back
     onError: (err, newJadwalLayanan, context) => {
-      toast.error("An error occured when creating todo");
+      toast.error(err.message);
       // Clear input
       form.reset(newJadwalLayanan);
 

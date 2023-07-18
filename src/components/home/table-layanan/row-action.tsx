@@ -8,7 +8,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { type IPemesananLayanan } from "~/types/pemesanan-layanan";
@@ -74,10 +73,10 @@ export const RowActions = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
           {listChangeStatus}
           <AlertDialogTrigger asChild>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem>Hapus</DropdownMenuItem>
           </AlertDialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -22,7 +22,7 @@ export const SideBar = ({
   return (
     <div className="divide-2 flex flex-none flex-col gap-y-3">
       {create && <DialogForm>
-        <Button variant="outline" >Create</Button>
+        <Button variant="outline" >Tambah</Button>
       </DialogForm>}
       <Button
         onClick={() => {

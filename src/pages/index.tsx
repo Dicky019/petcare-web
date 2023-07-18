@@ -69,7 +69,7 @@ const HomePage = () => {
     <>
       <SiteHeader />
       <section className="container mx-auto grid items-center gap-6 pb-8 pt-4 md:py-8">
-        <button onClick={() => void mutate()}>Add</button>
+        <button onClick={() => void mutate()}>Tambah</button>
         <div className="flex h-40 space-x-4">
           <SideBar
             layananKesehatan={() =>
