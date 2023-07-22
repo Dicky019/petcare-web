@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { CatIcon } from "lucide-react";
 
 import { UserAuthForm } from "~/components/login/user-auth-form";

@@ -9,8 +9,6 @@ export type IPemesananLayanan =
   RouterOutput["pemesananLayanan"]["getAll"]["layananGrouming"]["allPemesananLayanan"][number];
 
 export const ZPemesananLayanan = z.object({
-  // id: z.string(),
-  // userId: z.string(),
   jenisLayanan: z.enum(["grooming", "kesehatan", "konsultasi"]),
   namaHewan: z.string(),
   kategoriHewan: z.string(),

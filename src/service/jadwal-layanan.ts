@@ -87,6 +87,7 @@ export async function layananFake({ prisma }: IPrismaProps) {
 
   const pemesananLayanan = await prisma.pemesananLayanan.create({
     data: {
+      hari : "jumat",
       noHP: "081355834769",
       umurHewan: "16",
       status: Status.processing,
