@@ -2,6 +2,7 @@ import { verifyJwt } from "~/utils/jwt";
 import { prisma } from "~/server/db";
 import { type NextApiRequest, type NextApiResponse } from "next";
 import type { JWT } from "next-auth/jwt";
+import { getAllJadwalLayanan } from "~/service/jadwal-layanan";
 
 export default async function handler(
   req: NextApiRequest,
@@ -40,9 +41,30 @@ export default async function handler(
     });
   }
 
-  return res.status(200).json({
-    code: "200",
-    status: "Succses",
-    data: user,
-  });
+  if (req.method !== "GET") {
+    return res.status(404).json({
+      code: "404",
+      status: "Not Found",
+      errors: [{ route: ["Route Not Found"] }],
+    });
+  }
+
+  if (req.method === "GET") {
+    const [allLayananGrooming, allLayananKesehatan, allLayananKonsultasi] =
+      await getAllJadwalLayanan({
+        prisma,
+      });
+
+    const data = {
+      layananGrouming: allLayananGrooming,
+      layananKesehatan: allLayananKesehatan,
+      layananKonsultasi: allLayananKonsultasi,
+    };
+
+    return res.status(200).json({
+      code: "200",
+      status: "Succses",
+      data,
+    });
+  }
 }

@@ -76,9 +76,10 @@ model PemesananLayanan {
     kategoriHewan     String
     umurHewan         String
     jenisKelaminHewan JenisKelaminHewan
-    keluhan           String
+    keluhan           String?
     noHP              String
     status            Status
+    hari              Hari
     ///
     LayananGrouming   LayananGrouming?
     LayananKesehatan  LayananKesehatan?

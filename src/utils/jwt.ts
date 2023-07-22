@@ -1,5 +1,5 @@
 import jwt, { type JwtPayload } from "jsonwebtoken";
-import type { NextApiRequest, NextApiResponse } from "next/types";
+// import type { NextApiRequest, NextApiResponse } from "next/types";
 import { env } from "~/env.mjs";
 
 interface SignOption {
