@@ -28,29 +28,35 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const form = useForm<z.infer<typeof formLoginSchema>>({
     resolver: zodResolver(formLoginSchema),
     defaultValues: {
-      email : "",
-      password : ""
+      email: "",
+      password: "",
     },
   });
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formLoginSchema>) {
-    setIsLoading(v => !v)
+    setIsLoading((v) => !v);
     void (await signIn("credentials", {
       ...values,
       redirect: true,
       callbackUrl: "/",
     }));
-    setIsLoading(v => !v)
+    setIsLoading((v) => !v);
+  }
+
+  async function onSubmitGoogle() {
+    setIsLoading((v) => !v);
+    await signIn("google", {
+      redirect: true,
+      callbackUrl: "/",
+    });
+    setIsLoading((v) => !v);
   }
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid gap-2">
             <div className="mb-1">
               <FormField
@@ -102,7 +108,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
+      <Button
+        variant="outline"
+        type="button"
+        disabled={isLoading}
+        onClick={onSubmitGoogle}
+      >
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (

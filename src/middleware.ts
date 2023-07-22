@@ -1,8 +1,19 @@
+import { UserRole } from "@prisma/client";
 import { withAuth } from "next-auth/middleware";
 
 export default withAuth({
   callbacks: {
-    authorized: ({ token }) => token !== null,
+    authorized({ req, token }) {
+      // `/admin` requires admin role
+      console.log({ withAuth: token });
+      // if (req.nextUrl.pathname === "/admin") {
+      //   return ;
+      // } 
+      //   // `/me` only requires the user to be logged in
+      // return !!token
+
+      return token?.user.role === "admin";
+    },
   },
 });
 

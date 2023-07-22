@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider        = "prisma-client-js"
+    provider = "prisma-client-js"
     // previewFeatures = ["jsonProtocol"]
 }
 
@@ -19,7 +19,7 @@ model LayananGrouming {
     id                 String           @id @default(cuid())
     ///
     pilihJamGrouming   PilihJamGrouming
-    PemesananLayanan   PemesananLayanan @relation(fields: [pemesananLayananId], references: [id],onUpdate: Cascade, onDelete: Cascade)
+    PemesananLayanan   PemesananLayanan @relation(fields: [pemesananLayananId], references: [id], onUpdate: Cascade, onDelete: Cascade)
     pemesananLayananId String           @unique
 }
 
@@ -36,7 +36,7 @@ model LayananKesehatan {
     updatedAt          DateTime                    @updatedAt
     ///
     pilihJamKesehatan  PilihJamKesehatanKonsultasi
-    PemesananLayanan   PemesananLayanan            @relation(fields: [pemesananLayananId], references: [id],onUpdate: Cascade, onDelete: Cascade)
+    PemesananLayanan   PemesananLayanan            @relation(fields: [pemesananLayananId], references: [id], onUpdate: Cascade, onDelete: Cascade)
     pemesananLayananId String                      @unique
 }
 
@@ -46,7 +46,7 @@ model LayananKonsultasi {
     updatedAt          DateTime                    @updatedAt
     ///
     pilihJamKesehatan  PilihJamKesehatanKonsultasi
-    PemesananLayanan   PemesananLayanan            @relation(fields: [pemesananLayananId], references: [id],onUpdate: Cascade, onDelete: Cascade)
+    PemesananLayanan   PemesananLayanan            @relation(fields: [pemesananLayananId], references: [id], onUpdate: Cascade, onDelete: Cascade)
     pemesananLayananId String                      @unique
 }
 
@@ -160,9 +160,15 @@ model User {
     emailVerified    DateTime?
     image            String?
     isActive         Boolean            @default(false)
+    role             UserRole           @default(user)
     accounts         Account[]
     sessions         Session[]
     PemesananLayanan PemesananLayanan[]
+}
+
+enum UserRole {
+    admin
+    user
 }
 
 model VerificationToken {

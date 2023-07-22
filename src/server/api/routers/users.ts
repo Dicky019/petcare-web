@@ -12,7 +12,11 @@ import { sameDay } from "~/utils/function";
 
 export const usersRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    const allUsers = await ctx.prisma.user.findMany({});
+    const allUsers = await ctx.prisma.user.findMany({
+      where : {
+        role : "user",
+      }
+    });
 
     const date = new Date(0);
 
