@@ -75,6 +75,7 @@ export async function layananFake({ prisma }: IPembelajaranProps) {
       name: faker.person.fullName(),
       email: faker.internet.email(),
       image: faker.internet.avatar(),
+      noHP : faker.phone.number(),
       emailVerified: new Date(),
       isActive: faker.datatype.boolean(),
     },

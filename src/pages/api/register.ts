@@ -1,26 +1,24 @@
 import { signJwtAccessToken } from "~/utils/jwt";
 import { prisma } from "~/server/db";
 import { type NextApiRequest, type NextApiResponse } from "next";
-import { env } from "~/env.mjs";
-
-interface RequestBody {
-  email: string;
-  image: string;
-  name: string;
-  isActive?: boolean;
-}
+import { formRegisterSchema } from "~/types/login";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const keysLogin = req.headers["authorization"];
-  const {
-    image,
-    email,
-    name,
-    isActive = true,
-  }: RequestBody = req.body as RequestBody;
+
+  const result = formRegisterSchema.safeParse(req.body);
+
+  if (!result.success) {
+    return res.status(404).json({
+      code: "404",
+      status: "Bad Request",
+      errors: [result.error.formErrors.fieldErrors],
+    });
+  }
+
+  const { email, image, noHP, isActive, name } = result.data;
 
   const user = await prisma.user.upsert({
     where: {
@@ -30,6 +28,7 @@ export default async function handler(
       email,
       emailVerified: new Date(),
       image,
+      noHP,
       isActive,
       name,
     },
@@ -37,6 +36,7 @@ export default async function handler(
       email,
       image,
       name,
+      noHP,
     },
   });
 
@@ -55,10 +55,11 @@ export default async function handler(
       errors: [{ user: ["Status anda non active"] }],
     });
   }
-  
+
   const { ...userWithoutPass } = user;
   const accessToken = signJwtAccessToken(userWithoutPass);
-  const result = {
+
+  const data = {
     ...userWithoutPass,
     accessToken,
   };
@@ -66,6 +67,6 @@ export default async function handler(
   return res.status(200).json({
     code: "200",
     status: "Succses",
-    data: result,
+    data,
   });
 }

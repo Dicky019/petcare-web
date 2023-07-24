@@ -159,8 +159,9 @@ model User {
     name             String?
     email            String?            @unique
     emailVerified    DateTime?
-    image            String?
-    isActive         Boolean            @default(false)
+    image            String
+    noHP             String
+    isActive         Boolean            @default(true)
     role             UserRole           @default(user)
     accounts         Account[]
     sessions         Session[]

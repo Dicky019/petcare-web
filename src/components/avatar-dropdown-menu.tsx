@@ -13,16 +13,19 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export function AvatarDropdownMenu() {
-  const { data: user } = useSession({
+  const { data: session } = useSession({
     required: true,
   });
+
+  // const image = () =>
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar>
           <AvatarImage
-            src={user?.user.image ? user.user.image : "./bg.png"}
-            alt={user?.user.name ? user?.user.name : "@shadcn"}
+            src={session?.user.image ? session.user.image : "./bg.png"}
+            alt={session?.user.name ? session.user.name : "@shadcn"}
           />
           <AvatarFallback>DD</AvatarFallback>
         </Avatar>
@@ -30,20 +33,20 @@ export function AvatarDropdownMenu() {
       <DropdownMenuContent className="w-auto">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {user?.user.name && (
+        {session?.user.name && (
           <DropdownMenuLabel>
             <div className="flex flex-col">
               <div className="font-normal">Name</div>
-              <div>{user?.user.name}</div>
+              <div>{session?.user.name}</div>
             </div>
           </DropdownMenuLabel>
         )}
         <DropdownMenuSeparator />
-        {user?.user.email && (
+        {session?.user.email && (
           <DropdownMenuLabel>
             <div className="flex flex-col">
               <div className="font-normal">Email</div>
-              <div>{user?.user.email}</div>
+              <div>{session?.user.email}</div>
             </div>
           </DropdownMenuLabel>
         )}
