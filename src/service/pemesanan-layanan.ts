@@ -114,11 +114,11 @@ export async function updatePemesanan({
   prisma,
   jwt,
 }: IPemesananProps) {
-  const result = ZUpdatePemesananLayanan.safeParse(req.body);
+  const result = ZUpdatePemesananLayanan.safeParse({...req.query,...req.body});
 
   if (!result.success) {
     return res.status(404).json({
-      code: "400",
+      code: "400", 
       status: "Bad Request",
       errors: [result.error.formErrors.fieldErrors],
     });
@@ -166,7 +166,7 @@ export const deletePemesanan = async ({
   res: NextApiResponse;
   req: NextApiRequest;
 }) => {
-  const result = ZDeletePemesananLayanan.safeParse(req.body);
+  const result = ZDeletePemesananLayanan.safeParse(req.query);
 
   if (!result.success) {
     return res.status(404).json({
@@ -205,7 +205,7 @@ export const getByUserPemesanan = async ({
   req: NextApiRequest;
   res: NextApiResponse;
 }) => {
-  const result = ZDeletePemesananLayanan.safeParse(req);
+  const result = ZDeletePemesananLayanan.safeParse(req.query);
 
   if (!result.success) {
     return res.status(404).json({

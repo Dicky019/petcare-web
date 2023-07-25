@@ -24,17 +24,16 @@ export const ZCreatePemesananLayanan = z.object({
 
 export const ZUpdatePemesananLayanan = z.object({
   id: z.string(),
-  jenisLayanan: z.enum(["grooming", "kesehatan", "konsultasi"]),
-  namaHewan: z.string(),
-  kategoriHewan: z.string(),
-  umurHewan: z.string(),
-  jenisKelaminHewan: z.enum(["jantan", "betina"]),
+  jenisLayanan: z.enum(["grooming", "kesehatan", "konsultasi"]).optional(),
+  namaHewan: z.string().optional(),
+  kategoriHewan: z.string().optional(),
+  umurHewan: z.string().optional(),
+  jenisKelaminHewan: z.enum(["jantan", "betina"]).optional(),
   keluhan: z.string().optional(),
-  noHP: z.string(),
-  status: z.enum(["pending", "processing", "success", "failed"]),
-  hari: z.enum(["senin", "selasa", "rabu", "kamis", "jumat"]),
-  jam: z.string(),
- 
+  noHP: z.string().optional(),
+  status: z.enum(["pending", "processing", "success", "failed"]).optional(),
+  hari: z.enum(["senin", "selasa", "rabu", "kamis", "jumat"]).optional(),
+  jam: z.string().optional(),
 });
 
 export const ZDeletePemesananLayanan = z.object({
