@@ -1,24 +1,17 @@
 import type { PemesananLayanan, User } from "@prisma/client";
 import {
-  type Prisma,
-  type PrismaClient,
   JenisLayanan,
   type Status,
 } from "@prisma/client";
 import { type JWT } from "next-auth/jwt";
 import { type NextApiRequest, type NextApiResponse } from "next/types";
+import { type IPrismaProps } from "~/server/db";
 import {
   ZCreatePemesananLayanan,
   ZDeletePemesananLayanan,
   ZUpdatePemesananLayanan,
 } from "~/types/pemesanan-layanan";
 import { displayJam } from "~/utils/function";
-
-type IPrismaProps = PrismaClient<
-  Prisma.PrismaClientOptions,
-  never,
-  Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
->;
 
 interface IPemesananLayananProps {
   prisma: IPrismaProps;

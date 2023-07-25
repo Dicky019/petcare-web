@@ -1,28 +1,20 @@
-import { faker } from "@faker-js/faker";
-import { type Hari, JenisLayanan, Status } from "@prisma/client";
-import { type Prisma, type PrismaClient } from "@prisma/client";
+import { type Hari, JenisLayanan } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { type UseFormReturn } from "react-hook-form";
 import toast from "react-hot-toast";
 import { type z } from "zod";
+import { type IPrismaProps } from "~/server/db";
 import {
   type IJadwalLayanan,
   type formCreateSchema,
 } from "~/types/jadwal-layanan";
 import { api } from "~/utils/api";
 
-interface IPemesananLayananProps {
-  prisma: PrismaClient<
-    Prisma.PrismaClientOptions,
-    never,
-    Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
-  >;
-  // jenisLayanan?: JenisLayanan;
-}
-
 export const getAllJadwalLayanan = async ({
   prisma,
-}: IPemesananLayananProps) => {
+}: {
+  prisma: IPrismaProps;
+}) => {
   return await Promise.all([
     prisma.jadwalLayanan.findMany({
       where: {
@@ -42,16 +34,8 @@ export const getAllJadwalLayanan = async ({
   ]);
 };
 
-interface IPrismaProps {
-  prisma: PrismaClient<
-    Prisma.PrismaClientOptions,
-    never,
-    Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
-  >;
-}
-
 interface ValidatedProps {
-  prisma: IPrismaProps["prisma"];
+  prisma: IPrismaProps;
   jenisLayanan: JenisLayanan;
   hari: Hari;
   jam: string;
@@ -73,41 +57,6 @@ export const validated = async ({ prisma, ...value }: ValidatedProps) => {
     });
   }
 };
-
-export async function layananFake({ prisma }: IPrismaProps) {
-  const user = await prisma.user.create({
-    data: {
-      name: faker.person.fullName(),
-      email: faker.internet.email(),
-      image: faker.internet.avatar(),
-      noHP: faker.phone.number(),
-      emailVerified: new Date(),
-      isActive: faker.datatype.boolean(),
-    },
-  });
-
-  const pemesananLayanan = await prisma.pemesananLayanan.create({
-    data: {
-      hari : "jumat",
-      noHP: "081355834769",
-      umurHewan: "16",
-      status: Status.processing,
-      namaHewan: "Hewan",
-      keluhan: "loremmmmm",
-      jenisKelaminHewan: "betina",
-      jenisLayanan: "grooming",
-      kategoriHewan: "changeStatus",
-      userId: user.id,
-    },
-  });
-
-  await prisma.layananGrouming.create({
-    data: {
-      pilihJamGrouming: "jam09_12",
-      pemesananLayananId: pemesananLayanan.id,
-    },
-  });
-}
 
 interface Iform {
   form: UseFormReturn<z.infer<typeof formCreateSchema>>;
