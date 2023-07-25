@@ -36,3 +36,7 @@ export const ZUpdatePemesananLayanan = z.object({
   jam: z.string(),
  
 });
+
+export const ZDeletePemesananLayanan = z.object({
+  id: z.string(),
+});

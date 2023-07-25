@@ -9,6 +9,7 @@ import { type JWT } from "next-auth/jwt";
 import { type NextApiRequest, type NextApiResponse } from "next/types";
 import {
   ZCreatePemesananLayanan,
+  ZDeletePemesananLayanan,
   ZUpdatePemesananLayanan,
 } from "~/types/pemesanan-layanan";
 import { displayJam } from "~/utils/function";
@@ -156,6 +157,45 @@ export async function updatePemesanan({
   });
 }
 
+export const deletePemesanan = async ({
+  prisma,
+  res,
+  req,
+}: {
+  prisma: IPrismaProps;
+  res: NextApiResponse;
+  req: NextApiRequest;
+}) => {
+  const result = ZDeletePemesananLayanan.safeParse(req.body);
+
+  if (!result.success) {
+    return res.status(404).json({
+      code: "404",
+      status: "Bad Request",
+      errors: [result.error.formErrors.fieldErrors],
+    });
+  }
+
+  const { id } = result.data;
+
+  const { jam, ...value } = await prisma.pemesananLayanan.delete({
+    where: {
+      id,
+    },
+  });
+
+  const pemesanan: PemesananLayanan = {
+    ...value,
+    jam: displayJam(jam),
+  };
+
+  return res.status(200).json({
+    code: "200",
+    status: "Succses",
+    data: pemesanan,
+  });
+};
+
 export const getAllPemesanan = async ({
   prisma,
   user,
@@ -172,8 +212,8 @@ export const getAllPemesanan = async ({
   });
 
   const changeJam = pemesanans.map(({ jam, ...value }) => ({
-    jam: displayJam(jam),
     ...value,
+    jam: displayJam(jam),
   }));
 
   return res.status(200).json({
