@@ -58,6 +58,14 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
     header: "Nama Hewan",
   },
   {
+    accessorKey: "hari",
+    header: "Hari",
+  },
+  {
+    accessorKey: "jam",
+    header: "Jam",
+  },
+  {
     accessorKey: "jenisKelaminHewan",
     header: () => <div className="w-36">Jenis Kelamin Hewan</div>,
     cell: ({ row }) => {

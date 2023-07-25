@@ -1,13 +1,26 @@
-import { faker } from "@faker-js/faker";
-import { JenisLayanan, Status } from "@prisma/client";
-import { type Prisma, type PrismaClient } from "@prisma/client";
+import type { PemesananLayanan, User } from "@prisma/client";
+import {
+  type Prisma,
+  type PrismaClient,
+  JenisLayanan,
+  type Status,
+} from "@prisma/client";
+import { type JWT } from "next-auth/jwt";
+import { type NextApiRequest, type NextApiResponse } from "next/types";
+import {
+  ZCreatePemesananLayanan,
+  ZUpdatePemesananLayanan,
+} from "~/types/pemesanan-layanan";
+import { displayJam } from "~/utils/function";
+
+type IPrismaProps = PrismaClient<
+  Prisma.PrismaClientOptions,
+  never,
+  Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
+>;
 
 interface IPemesananLayananProps {
-  prisma: PrismaClient<
-    Prisma.PrismaClientOptions,
-    never,
-    Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
-  >;
+  prisma: IPrismaProps;
   status?: Status;
 }
 
@@ -19,87 +32,153 @@ export const getAllPemesananLayanan = async ({
     status,
   };
 
-  const select = {
-    select: {
-      user: true,
-      id: true,
-      createdAt: true,
-      updatedAt: true,
-      userId: true,
-      jenisLayanan: true,
-      namaHewan: true,
-      kategoriHewan: true,
-      umurHewan: true,
-      jenisKelaminHewan: true,
-      keluhan: true,
-      noHP: true,
-      status: true,
-    },
-  };
   return await Promise.all([
     prisma.pemesananLayanan.findMany({
       where: {
         jenisLayanan: JenisLayanan.grooming,
         ...whereStatus,
       },
-      ...select,
     }),
     prisma.pemesananLayanan.findMany({
       where: {
         jenisLayanan: JenisLayanan.kesehatan,
         ...whereStatus,
       },
-      ...select,
     }),
     prisma.pemesananLayanan.findMany({
       where: {
         jenisLayanan: JenisLayanan.konsultasi,
         ...whereStatus,
       },
-      ...select,
     }),
   ]);
 };
 
-interface IPembelajaranProps {
-  prisma: PrismaClient<
-    Prisma.PrismaClientOptions,
-    never,
-    Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
-  >;
+interface IPemesananProps {
+  prisma: IPrismaProps;
+  jwt: JWT;
+  req: NextApiRequest;
+  res: NextApiResponse;
 }
 
-export async function layananFake({ prisma }: IPembelajaranProps) {
-  const user = await prisma.user.create({
+export async function createPemesanan({
+  req,
+  res,
+  prisma,
+  jwt,
+}: IPemesananProps) {
+  const result = ZCreatePemesananLayanan.safeParse(req.body);
+
+  if (!result.success) {
+    return res.status(404).json({
+      code: "404",
+      status: "Bad Request",
+      errors: [result.error.formErrors.fieldErrors],
+    });
+  }
+
+  const { noHP, ...dataPemesanan } = result.data;
+
+  const user = await prisma.user.update({
+    where: {
+      email: jwt.email,
+    },
     data: {
-      name: faker.person.fullName(),
-      email: faker.internet.email(),
-      image: faker.internet.avatar(),
-      noHP : faker.phone.number(),
-      emailVerified: new Date(),
-      isActive: faker.datatype.boolean(),
+      noHP,
     },
   });
 
-  const pemesananLayanan = await prisma.pemesananLayanan.create({
+  const { jam, ...value } = await prisma.pemesananLayanan.create({
     data: {
-      hari : "jumat",
-      noHP: "081355834769",
-      umurHewan: "16",
-      status: Status.processing,
-      namaHewan: "Hewan",
-      keluhan: "loremmmmm",
-      jenisKelaminHewan: "betina",
-      jenisLayanan: "grooming",
-      kategoriHewan: "changeStatus",
+      ...dataPemesanan,
       userId: user.id,
     },
   });
 
-  await prisma.layananKesehatan.create({
-    data: {
-      pilihJamKesehatan: "jam09_10",
-      pemesananLayananId: pemesananLayanan.id,
-    },
+  const pemesanan: PemesananLayanan = {
+    ...value,
+    jam: displayJam(jam),
+  };
+
+  return res.status(200).json({
+    code: "200",
+    status: "Succses",
+    data: pemesanan,
   });
 }
+
+export async function updatePemesanan({
+  req,
+  res,
+  prisma,
+  jwt,
+}: IPemesananProps) {
+  const result = ZUpdatePemesananLayanan.safeParse(req.body);
+
+  if (!result.success) {
+    return res.status(404).json({
+      code: "404",
+      status: "Bad Request",
+      errors: [result.error.formErrors.fieldErrors],
+    });
+  }
+
+  const { noHP, id, ...dataPemesanan } = result.data;
+
+  const user = await prisma.user.update({
+    where: {
+      email: jwt.email,
+    },
+    data: {
+      noHP,
+    },
+  });
+
+  const { jam, ...value } = await prisma.pemesananLayanan.update({
+    data: {
+      ...dataPemesanan,
+      userId: user.id,
+    },
+    where: {
+      id,
+    },
+  });
+
+  const pemesanan: PemesananLayanan = {
+    ...value,
+    jam: displayJam(jam),
+  };
+
+  return res.status(200).json({
+    code: "200",
+    status: "Succses",
+    data: pemesanan,
+  });
+}
+
+export const getAllPemesanan = async ({
+  prisma,
+  user,
+  res,
+}: {
+  prisma: IPrismaProps;
+  user: User;
+  res: NextApiResponse;
+}) => {
+  const pemesanans = await prisma.pemesananLayanan.findMany({
+    where: {
+      userId: user.id,
+    },
+  });
+
+  const changeJam = pemesanans.map(({ jam, ...value }) => ({
+    jam: displayJam(jam),
+    ...value,
+  }));
+
+  return res.status(200).json({
+    code: "200",
+    status: "Succses",
+    data: changeJam,
+  });
+};

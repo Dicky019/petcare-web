@@ -3,7 +3,7 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { sameDay } from "~/utils/function";
 import {
-  layananFake,
+  // layananFake,
   getAllPemesananLayanan,
 } from "~/service/pemesanan-layanan";
 
@@ -45,11 +45,11 @@ export const pemesananLayananRouter = createTRPCRouter({
       });
     }),
 
-  create: publicProcedure.mutation(async ({ ctx }) => {
-    await layananFake({
-      prisma: ctx.prisma,
-    });
-  }),
+  // create: publicProcedure.mutation(async ({ ctx }) => {
+  //   await layananFake(
+  //     ctx.prisma,
+  //   );
+  // }),
 
   getAll: publicProcedure.query(async ({ ctx }) => {
     const [allLayananGrooming, allLayananKesehatan, allLayananKonsultasi] =

@@ -1,9 +1,4 @@
-import {
-  Hari,
-  JenisLayanan,
-  PilihJamGrouming,
-  PilihJamKesehatanKonsultasi,
-} from "@prisma/client";
+import { Hari, JenisLayanan } from "@prisma/client";
 import { type ISelectItem } from "~/types/jadwal-layanan";
 import { displayJam } from "./function";
 
@@ -23,9 +18,19 @@ export const listJenisLayananForm: ISelectItem[] = listJenisLayanan.map(
   })
 );
 
-export const listJamKesehatanKonsultasi = Object.values(
-  PilihJamKesehatanKonsultasi
-);
+export const listJamKesehatanKonsultasi = [
+  "jam09_10",
+  "jam10_11",
+  "jam12_13",
+  "jam13_14",
+  "jam14_15",
+  "jam15_16",
+  "jam16_17",
+  "jam17_18",
+  "jam18_19",
+  "jam19_20",
+  "jam20_21",
+];
 
 export const listJamKesehatanKonsultasiForm: ISelectItem[] =
   listJamKesehatanKonsultasi.map((v) => ({
@@ -33,14 +38,9 @@ export const listJamKesehatanKonsultasiForm: ISelectItem[] =
     value: v,
   }));
 
-export const listJamGrooming = Object.values(
-  PilihJamGrouming
-);
+export const listJamGrooming = ["jam09_12", "jam10_14", "jam14_17", "jam16_19"];
 
-export const listJamGroumingForm: ISelectItem[] =
-listJamGrooming.map((v) => ({
-    display: displayJam(v),
-    value: v,
-  }));
-
-
+export const listJamGroumingForm: ISelectItem[] = listJamGrooming.map((v) => ({
+  display: displayJam(v),
+  value: v,
+}));

@@ -15,61 +15,33 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model LayananGrouming {
-    id                 String           @id @default(cuid())
-    ///
-    pilihJamGrouming   PilihJamGrouming
-    PemesananLayanan   PemesananLayanan @relation(fields: [pemesananLayananId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-    pemesananLayananId String           @unique
-}
+// enum PilihJamGrouming {
+//     jam09_12
+//     jam10_14
+//     jam14_17
+//     jam16_19
+// }
 
-enum PilihJamGrouming {
-    jam09_12
-    jam10_14
-    jam14_17
-    jam16_19
-}
-
-model LayananKesehatan {
-    id                 String                      @id @default(cuid())
-    createdAt          DateTime                    @default(now())
-    updatedAt          DateTime                    @updatedAt
-    ///
-    pilihJamKesehatan  PilihJamKesehatanKonsultasi
-    PemesananLayanan   PemesananLayanan            @relation(fields: [pemesananLayananId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-    pemesananLayananId String                      @unique
-}
-
-model LayananKonsultasi {
-    id                 String                      @id @default(cuid())
-    createdAt          DateTime                    @default(now())
-    updatedAt          DateTime                    @updatedAt
-    ///
-    pilihJamKesehatan  PilihJamKesehatanKonsultasi
-    PemesananLayanan   PemesananLayanan            @relation(fields: [pemesananLayananId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-    pemesananLayananId String                      @unique
-}
-
-enum PilihJamKesehatanKonsultasi {
-    jam09_10
-    jam10_11
-    jam12_13
-    jam13_14
-    jam14_15
-    jam15_16
-    jam16_17
-    jam17_18
-    jam18_19
-    jam19_20
-    jam20_21
-}
+// enum PilihJamKesehatanKonsultasi {
+//     jam09_10
+//     jam10_11
+//     jam12_13
+//     jam13_14
+//     jam14_15
+//     jam15_16
+//     jam16_17
+//     jam17_18
+//     jam18_19
+//     jam19_20
+//     jam20_21
+// }
 
 model PemesananLayanan {
-    id                String             @id @default(cuid())
-    createdAt         DateTime           @default(now())
-    updatedAt         DateTime           @updatedAt
+    id                String            @id @default(cuid())
+    createdAt         DateTime          @default(now())
+    updatedAt         DateTime          @updatedAt
     ///
-    user              User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    user              User              @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
     userId            String
     jenisLayanan      JenisLayanan
     namaHewan         String
@@ -77,13 +49,10 @@ model PemesananLayanan {
     umurHewan         String
     jenisKelaminHewan JenisKelaminHewan
     keluhan           String?
-    noHP              String
     status            Status
     hari              Hari
     ///
-    LayananGrouming   LayananGrouming?
-    LayananKesehatan  LayananKesehatan?
-    LayananKonsultasi LayananKonsultasi?
+    jam               String
 }
 
 enum JenisKelaminHewan {
