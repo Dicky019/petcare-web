@@ -4,8 +4,8 @@ import type { JWT } from "next-auth/jwt";
 import { verifyJwt } from "~/utils/jwt";
 import { prisma } from "~/server/db";
 import {
-  createPemesanan,
-  getAllPemesanan,
+  deletePemesanan,
+  getByUserPemesanan,
   updatePemesanan,
 } from "~/service/pemesanan-layanan";
 
@@ -23,7 +23,7 @@ export default async function handler(
     });
   }
 
-  if (req.method !== "GET" && req.method !== "PUT" && req.method !== "POST") {
+  if (req.method !== "PUT" && req.method !== "DELETE" && req.method !== "GET") {
     return res.status(404).json({
       code: "404",
       status: "Not Found",
@@ -58,9 +58,9 @@ export default async function handler(
     return updatePemesanan({ prisma, jwt: JWT, req, res });
   }
 
-  if (req.method === "POST") {
-    return createPemesanan({ prisma, jwt: JWT, req, res });
+  if (req.method === "DELETE") {
+    return deletePemesanan({ prisma, req, res });
   }
 
-  return getAllPemesanan({ prisma, user, res });
+  return getByUserPemesanan({ prisma, req, res });
 }

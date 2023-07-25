@@ -12,7 +12,7 @@ export default async function handler(
 
   if (!result.success) {
     return res.status(404).json({
-      code: "404",
+      code: "400",
       status: "Bad Request",
       errors: [result.error.formErrors.fieldErrors],
     });

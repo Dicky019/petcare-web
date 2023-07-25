@@ -72,7 +72,7 @@ export async function createPemesanan({
 
   if (!result.success) {
     return res.status(404).json({
-      code: "404",
+      code: "400",
       status: "Bad Request",
       errors: [result.error.formErrors.fieldErrors],
     });
@@ -118,7 +118,7 @@ export async function updatePemesanan({
 
   if (!result.success) {
     return res.status(404).json({
-      code: "404",
+      code: "400",
       status: "Bad Request",
       errors: [result.error.formErrors.fieldErrors],
     });
@@ -170,7 +170,7 @@ export const deletePemesanan = async ({
 
   if (!result.success) {
     return res.status(404).json({
-      code: "404",
+      code: "400",
       status: "Bad Request",
       errors: [result.error.formErrors.fieldErrors],
     });
@@ -196,7 +196,57 @@ export const deletePemesanan = async ({
   });
 };
 
-export const getAllPemesanan = async ({
+export const getByUserPemesanan = async ({
+  prisma,
+  req,
+  res,
+}: {
+  prisma: IPrismaProps;
+  req: NextApiRequest;
+  res: NextApiResponse;
+}) => {
+  const result = ZDeletePemesananLayanan.safeParse(req);
+
+  if (!result.success) {
+    return res.status(404).json({
+      code: "400",
+      status: "Bad Request",
+      errors: [result.error.formErrors.fieldErrors],
+    });
+  }
+
+  const { id } = result.data;
+
+  const response = await prisma.pemesananLayanan.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!response) {
+    return res.status(404).json({
+      code: "404",
+      status: "Not Found",
+      errors: [{ pemesanan: ["Pemesanan Not Found"] }],
+    });
+  }
+
+  const { jam, ...value } = response
+
+  const pemesanan: PemesananLayanan = {
+    ...value,
+    jam: displayJam(jam),
+  };
+
+
+  return res.status(200).json({
+    code: "200",
+    status: "Succses",
+    data: pemesanan,
+  });
+};
+
+export const getAllByUserPemesanan = async ({
   prisma,
   user,
   res,
@@ -222,3 +272,5 @@ export const getAllPemesanan = async ({
     data: changeJam,
   });
 };
+
+
