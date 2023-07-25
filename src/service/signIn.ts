@@ -18,13 +18,16 @@ export const signInGoogle = async ({
   profile: Profile;
   account: Account;
 }) => {
-  const { name, email, picture, email_verified, image } = profile || {};
+  const { name, email, picture, email_verified, image, } = profile || {};
 
   const providerProviderAccountId = account.providerAccountId;
 
   if (!providerProviderAccountId) {
     throw Error("providerProviderAccountId");
   }
+
+  console.log({profile});
+  
 
   const user = await prisma.user.update({
     where: {
@@ -35,6 +38,7 @@ export const signInGoogle = async ({
       name,
       emailVerified: email_verified ? new Date(0) : undefined,
       image: picture ?? image,
+      noHP : ""
     },
   });
 
