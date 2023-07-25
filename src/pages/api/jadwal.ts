@@ -3,6 +3,7 @@ import { prisma } from "~/server/db";
 import { type NextApiRequest, type NextApiResponse } from "next";
 import type { JWT } from "next-auth/jwt";
 import { getAllJadwalLayanan } from "~/service/jadwal-layanan";
+import { displayJam } from "~/utils/function";
 
 export default async function handler(
   req: NextApiRequest,
@@ -56,9 +57,18 @@ export default async function handler(
       });
 
     const data = {
-      layananGrouming: allLayananGrooming,
-      layananKesehatan: allLayananKesehatan,
-      layananKonsultasi: allLayananKonsultasi,
+      layananGrouming: allLayananGrooming.map(({ jam, ...value }) => ({
+        ...value,
+        jam: displayJam(jam),
+      })),
+      layananKesehatan: allLayananKesehatan.map(({ jam, ...value }) => ({
+        ...value,
+        jam: displayJam(jam),
+      })),
+      layananKonsultasi: allLayananKonsultasi.map(({ jam, ...value }) => ({
+        ...value,
+        jam: displayJam(jam),
+      })),
     };
 
     return res.status(200).json({
