@@ -59,7 +59,7 @@ export const RowActions = ({ user }: { user: IUsers }) => {
            Change {isActive ? "Active" : "Non Active"}
           </DropdownMenuItem>
           <AlertDialogTrigger asChild>
-            <DropdownMenuItem>Hapus</DropdownMenuItem>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
           </AlertDialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>

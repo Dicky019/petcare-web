@@ -76,7 +76,7 @@ export const RowActions = ({
           {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
           {listChangeStatus}
           <AlertDialogTrigger asChild>
-            <DropdownMenuItem>Hapus</DropdownMenuItem>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
           </AlertDialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>
