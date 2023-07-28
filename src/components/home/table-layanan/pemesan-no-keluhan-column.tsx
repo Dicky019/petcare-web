@@ -63,7 +63,7 @@ export const pemesanNoKeluhanColumns: ColumnDef<IPemesananLayanan>[] = [
   {
     accessorKey: "jam",
     header: "Jam",
-    cell: ({ row }) => displayJam(row.getValue<string>("tanggal")).toUpperCase(),
+    cell: ({ row }) => displayJam(row.getValue<string>("jam")).toUpperCase(),
   },
   {
     accessorKey: "jenisKelaminHewan",
