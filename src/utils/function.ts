@@ -10,5 +10,5 @@ export function sameDay(d1: Date, d2: Date) {
 
 export const displayJam = (value: string) => {
   const jam = value.split("jam").join("").split("_").map(v => `${v}.00`).join("-");
-  return `Jam ${jam}`;
+  return jam;
 };
