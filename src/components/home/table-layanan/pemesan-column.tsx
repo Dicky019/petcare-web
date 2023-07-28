@@ -51,7 +51,7 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
           <div className="flex flex-col gap-y-1">
             <div>{user?.name ?? "shadcn"}</div>
             <div className="text-xs text-gray-500">
-              {user?.email ?? "shadcn@gmail.com"}
+              {user?.noHP ?? "shadcn@gmail.com"}
             </div>
           </div>
         </div>
