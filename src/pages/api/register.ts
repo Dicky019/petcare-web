@@ -18,7 +18,7 @@ export default async function handler(
     });
   }
 
-  const { email, image, noHP, isActive, name } = result.data;
+  const { email, image, isActive, name } = result.data;
 
   const user = await prisma.user.upsert({
     where: {
@@ -28,15 +28,14 @@ export default async function handler(
       email,
       emailVerified: new Date(),
       image,
-      noHP,
       isActive,
+      noHP: "-",
       name,
     },
     update: {
       email,
       image,
       name,
-      noHP,
     },
   });
 

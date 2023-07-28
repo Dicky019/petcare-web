@@ -9,7 +9,6 @@ export const formRegisterSchema = z.object({
   email: z.string().email(),
   image: z.string().url(),
   name: z.string(),
-  noHP: z.string().optional(),
   isActive : z.boolean().optional()
 });
 
