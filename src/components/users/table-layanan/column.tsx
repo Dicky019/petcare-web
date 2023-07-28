@@ -45,6 +45,10 @@ export const columns: ColumnDef<IUsers>[] = [
     header: "Nama",
   },
   {
+    accessorKey: "noHP",
+    header: "No.HP",
+  },
+  {
     accessorKey: "email",
     header: "Email",
   },
