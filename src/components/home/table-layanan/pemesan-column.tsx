@@ -7,6 +7,7 @@ import { RowActions } from "./row-action";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "~/components/ui/hover-card";
 import { Button } from "~/components/ui/button";
 import { SiCodereview } from "react-icons/si";
+import { displayJam } from "~/utils/function";
 
 export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
   {
@@ -58,12 +59,14 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
     header: "Nama Hewan",
   },
   {
-    accessorKey: "hari",
-    header: "Hari",
+    accessorKey: "tanggal",
+    header: "Tanggal",
+    cell: ({ row }) => row.getValue<string>("tanggal").toUpperCase(),
   },
   {
     accessorKey: "jam",
     header: "Jam",
+    cell: ({ row }) => displayJam(row.getValue<string>("tanggal")).toUpperCase(),
   },
   {
     accessorKey: "jenisKelaminHewan",

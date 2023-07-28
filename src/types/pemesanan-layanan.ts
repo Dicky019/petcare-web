@@ -17,7 +17,7 @@ export const ZCreatePemesananLayanan = z.object({
   keluhan: z.string().optional(),
   noHP: z.string(),
   status: z.enum(["pending", "processing", "success", "failed"]),
-  hari: z.enum(["senin", "selasa", "rabu", "kamis", "jumat"]),
+  tanggal: z.string(),
   jam: z.string(),
  
 });
@@ -32,7 +32,7 @@ export const ZUpdatePemesananLayanan = z.object({
   keluhan: z.string().optional(),
   noHP: z.string().optional(),
   status: z.enum(["pending", "processing", "success", "failed"]).optional(),
-  hari: z.enum(["senin", "selasa", "rabu", "kamis", "jumat"]).optional(),
+  tanggal: z.string().optional(),
   jam: z.string().optional(),
 });
 

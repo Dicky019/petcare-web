@@ -1,40 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
-    // previewFeatures = ["jsonProtocol"]
 }
 
 datasource db {
     provider = "postgresql"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
 }
-
-// enum PilihJamGrouming {
-//     jam09_12
-//     jam10_14
-//     jam14_17
-//     jam16_19
-// }
-
-// enum PilihJamKesehatanKonsultasi {
-//     jam09_10
-//     jam10_11
-//     jam12_13
-//     jam13_14
-//     jam14_15
-//     jam15_16
-//     jam16_17
-//     jam17_18
-//     jam18_19
-//     jam19_20
-//     jam20_21
-// }
 
 model PemesananLayanan {
     id                String            @id @default(cuid())
@@ -50,7 +21,7 @@ model PemesananLayanan {
     jenisKelaminHewan JenisKelaminHewan
     keluhan           String?
     status            Status
-    hari              Hari
+    tanggal           String
     ///
     jam               String
 }

@@ -4,6 +4,7 @@ import { type IPemesananLayanan } from "~/types/pemesanan-layanan";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
 import { RowActions } from "./row-action";
+import { displayJam } from "~/utils/function";
 
 export const pemesanNoKeluhanColumns: ColumnDef<IPemesananLayanan>[] = [
   {
@@ -53,6 +54,16 @@ export const pemesanNoKeluhanColumns: ColumnDef<IPemesananLayanan>[] = [
   {
     accessorKey: "namaHewan",
     header: "Nama Hewan",
+  },
+  {
+    accessorKey: "tanggal",
+    header: "Tanggal",
+    cell: ({ row }) => row.getValue<string>("tanggal").toUpperCase(),
+  },
+  {
+    accessorKey: "jam",
+    header: "Jam",
+    cell: ({ row }) => displayJam(row.getValue<string>("tanggal")).toUpperCase(),
   },
   {
     accessorKey: "jenisKelaminHewan",
