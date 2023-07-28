@@ -1,4 +1,4 @@
-import { type Status, type User } from "@prisma/client";
+import { type Status } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
 import { type IPemesananLayanan } from "~/types/pemesanan-layanan";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
@@ -34,7 +34,7 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
     accessorKey: "user",
     header: "User",
     cell: ({ row }) => {
-      const user = row.getValue<User>("user");
+      const user = row.original.user;
       const avatarFallback = (user?.name ?? "")
         .split(" ", 2)
         .map((v) => v[0])

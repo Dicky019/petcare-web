@@ -1,8 +1,5 @@
 import type { PemesananLayanan, User } from "@prisma/client";
-import {
-  JenisLayanan,
-  type Status,
-} from "@prisma/client";
+import { JenisLayanan, type Status } from "@prisma/client";
 import { type JWT } from "next-auth/jwt";
 import { type NextApiRequest, type NextApiResponse } from "next/types";
 import { type IPrismaProps } from "~/server/db";
@@ -32,18 +29,21 @@ export const getAllPemesananLayanan = async ({
         jenisLayanan: JenisLayanan.grooming,
         ...whereStatus,
       },
+      include: { user: true },
     }),
     prisma.pemesananLayanan.findMany({
       where: {
         jenisLayanan: JenisLayanan.kesehatan,
         ...whereStatus,
       },
+      include: { user: true },
     }),
     prisma.pemesananLayanan.findMany({
       where: {
         jenisLayanan: JenisLayanan.konsultasi,
         ...whereStatus,
       },
+      include: { user: true },
     }),
   ]);
 };
@@ -107,11 +107,14 @@ export async function updatePemesanan({
   prisma,
   jwt,
 }: IPemesananProps) {
-  const result = ZUpdatePemesananLayanan.safeParse({...req.query,...req.body});
+  const result = ZUpdatePemesananLayanan.safeParse({
+    ...req.query,
+    ...req.body,
+  });
 
   if (!result.success) {
     return res.status(404).json({
-      code: "400", 
+      code: "400",
       status: "Bad Request",
       errors: [result.error.formErrors.fieldErrors],
     });
@@ -224,13 +227,12 @@ export const getByUserPemesanan = async ({
     });
   }
 
-  const { jam, ...value } = response
+  const { jam, ...value } = response;
 
   const pemesanan: PemesananLayanan = {
     ...value,
     jam: displayJam(jam),
   };
-
 
   return res.status(200).json({
     code: "200",
@@ -265,5 +267,3 @@ export const getAllByUserPemesanan = async ({
     data: changeJam,
   });
 };
-
-

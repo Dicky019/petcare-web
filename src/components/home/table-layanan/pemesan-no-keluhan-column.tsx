@@ -1,4 +1,4 @@
-import { type Status, type User } from "@prisma/client";
+import { type Status, } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
 import { type IPemesananLayanan } from "~/types/pemesanan-layanan";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
@@ -27,7 +27,7 @@ export const pemesanNoKeluhanColumns: ColumnDef<IPemesananLayanan>[] = [
     accessorKey: "user",
     header: "User",
     cell: ({ row }) => {
-      const user = row.getValue<User>("user");
+      const user = row.original.user;
       const avatarFallback = (user?.name ?? "")
         .split(" ", 2)
         .map((v) => v[0])
@@ -44,7 +44,7 @@ export const pemesanNoKeluhanColumns: ColumnDef<IPemesananLayanan>[] = [
           <div className="flex flex-col gap-y-1">
             <div>{user?.name ?? "shadcn"}</div>
             <div className="text-xs text-gray-500">
-              {user?.noHP ?? "shadcn@gmail.com"}
+              {user?.noHP ?? "-"}
             </div>
           </div>
         </div>
