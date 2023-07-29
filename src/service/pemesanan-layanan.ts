@@ -231,7 +231,8 @@ export const getByUserPemesanan = async ({
 
   const pemesanan: PemesananLayanan = {
     ...value,
-    jam: displayJam(jam),
+    // jam: displayJam(jam),
+    jam,
   };
 
   return res.status(200).json({
