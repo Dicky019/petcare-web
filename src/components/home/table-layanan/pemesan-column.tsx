@@ -68,7 +68,7 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
         .map((v, i) => (i === 0 ? v.toUpperCase() : v)).join("");
       return (
         <div className="flex flex-col gap-y-1">
-          <div>{data.namaHewan}</div>
+          <div>{data.namaHewan + " / " + data.kategoriHewan}</div>
           <div className="text-xs text-gray-500">{ data.umurHewan+ " / " + jenisKelaminHewan}</div>
         </div>
       );
