@@ -6,9 +6,9 @@ export const SideBar = ({
   layananGrooming,
   layananKesehatan,
   layananKonsultasi,
-  create,
+  isCreate,
 }: {
-  create?: boolean;
+  isCreate?: boolean;
   layananKesehatan: () => void;
   layananKonsultasi: () => void;
   layananGrooming: () => void;
@@ -21,7 +21,7 @@ export const SideBar = ({
 
   return (
     <div className="divide-2 flex flex-none flex-col gap-y-3">
-      {create && <DialogForm>
+      {isCreate && <DialogForm>
         <Button variant="outline" >Tambah</Button>
       </DialogForm>}
       <Button
