@@ -20,15 +20,24 @@ export const getAllJadwalLayanan = async ({
       where: {
         jenisLayanan: JenisLayanan.grooming,
       },
+      orderBy: {
+        createdAt: "asc",
+      },
     }),
     prisma.jadwalLayanan.findMany({
       where: {
         jenisLayanan: JenisLayanan.kesehatan,
       },
+      orderBy: {
+        createdAt: "asc",
+      },
     }),
     prisma.jadwalLayanan.findMany({
       where: {
         jenisLayanan: JenisLayanan.konsultasi,
+      },
+      orderBy: {
+        createdAt: "asc",
       },
     }),
   ]);

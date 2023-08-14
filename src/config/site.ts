@@ -7,19 +7,16 @@ export const siteConfig = {
   mainNav:  [
     
     {
-      title: "Pemesanan",
-      href: "/",
+      title: "Pemesanannn", href: "/",
     },
+    {
+      title: "tes", href: "/users",
+    },
+    
     {
       title: "Jadwal Layanan",
-      href: "/jadwal-layanan",
-    },
-    {
-      title: "Users",
-      href: "/users",
-    },
-  ],
-  links: {
+      href: "/jadwal-layanan", },
+    { title: "Users", href: "/users", }, ], links: {
     twitter: "https://twitter.com/shadcn",
     github: "https://github.com/shadcn/ui",
     docs: "https://ui.shadcn.com",

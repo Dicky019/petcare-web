@@ -30,6 +30,9 @@ export const getAllPemesananLayanan = async ({
         ...whereStatus,
       },
       include: { user: true },
+      orderBy: {
+        createdAt: "asc",
+      },
     }),
     prisma.pemesananLayanan.findMany({
       where: {
@@ -37,6 +40,9 @@ export const getAllPemesananLayanan = async ({
         ...whereStatus,
       },
       include: { user: true },
+      orderBy: {
+        createdAt: "asc",
+      },
     }),
     prisma.pemesananLayanan.findMany({
       where: {
@@ -44,6 +50,9 @@ export const getAllPemesananLayanan = async ({
         ...whereStatus,
       },
       include: { user: true },
+      orderBy: {
+        createdAt: "asc",
+      },
     }),
   ]);
 };
