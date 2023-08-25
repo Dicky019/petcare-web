@@ -15,4 +15,5 @@ import { type inferRouterOutputs } from "@trpc/server"
 type RouterOutput = inferRouterOutputs<AppRouter>
 type allUserOutput = RouterOutput["users"]["getAll"]
 
+
 export type IUsers = allUserOutput["allUsers"][number]
