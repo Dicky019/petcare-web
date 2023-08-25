@@ -59,7 +59,7 @@ const JadwalPage = () => {
             layananKesehatan={() => void changeLayanan(data.layananKesehatan)}
             layananGrooming={() => void changeLayanan(data.layananGrouming)}
             layananKonsultasi={() => void changeLayanan(data.layananKonsultasi)}
-            create={true}
+            isCreate={true}
           />
 
           <Separator orientation="vertical" />
