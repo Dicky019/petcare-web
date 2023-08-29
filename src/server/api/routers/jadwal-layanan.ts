@@ -29,7 +29,7 @@ export const jadwalLayananRouter = createTRPCRouter({
         const hariA = filterByHari(a.hari)
         const hariB = filterByHari(b.hari)
         return Number(hariA) - Number(hariB);
-      }),,
+      }),
       layananKonsultasi: allLayananKonsultasi.sort((a,b) => {
         const hariA = filterByHari(a.hari)
         const hariB = filterByHari(b.hari)
