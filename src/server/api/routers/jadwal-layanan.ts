@@ -3,7 +3,7 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { getAllJadwalLayanan, validated } from "~/service/jadwal-layanan";
 import { formCreateSchema, formEditSchema } from "~/types/jadwal-layanan";
-import { listHari } from "~/utils/data";
+import { filterByHari } from "~/utils/function";
 
 export const jadwalLayananRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
@@ -11,13 +11,6 @@ export const jadwalLayananRouter = createTRPCRouter({
       await getAllJadwalLayanan({
         prisma: ctx.prisma,
       });
-
-    const filterByHari = (hari: string) => {
-      const haris = Object.entries(listHari);
-      console.log({ haris, hari });
-      const hariKey = haris.find((h) => h[1] === hari)?.[0];
-      return hariKey ?? "0";
-    };
 
     return {
       layananGrouming: allLayananGrooming.sort((a,b) => {
