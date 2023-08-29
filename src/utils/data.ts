@@ -34,13 +34,13 @@ export const listJamKesehatanKonsultasi = [
 
 export const listJamKesehatanKonsultasiForm: ISelectItem[] =
   listJamKesehatanKonsultasi.map((v) => ({
-    display: displayJam(v),
+    display: v.split("jam").join("").split("_").map(v => `${v}.00`).join("-"),
     value: v,
   }));
 
 export const listJamGrooming = ["jam09_12", "jam10_14", "jam14_17", "jam16_19"];
 
 export const listJamGroumingForm: ISelectItem[] = listJamGrooming.map((v) => ({
-  display: displayJam(v),
+  display: v.split("jam").join("").split("_").map(v => `${v}.00`).join("-"),
   value: v,
 }));
