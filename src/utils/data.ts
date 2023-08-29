@@ -21,7 +21,7 @@ export const listJenisLayananForm: ISelectItem[] = listJenisLayanan.map(
 export const listJamKesehatanKonsultasi = [
   "jam09_10",
   "jam10_11",
-  "jam12_13",
+  "jam11_12",
   "jam13_14",
   "jam14_15",
   "jam15_16",
