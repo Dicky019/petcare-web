@@ -27,7 +27,7 @@ export function AvatarDropdownMenu() {
             src={session?.user.image ? session.user.image : "./bg.png"}
             alt={session?.user.name ? session.user.name : "@shadcn"}
           />
-          <AvatarFallback>DD</AvatarFallback>
+          <AvatarFallback>U</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-auto">
