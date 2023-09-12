@@ -75,9 +75,12 @@ export const RowActions = ({
         <DropdownMenuContent align="end">
           {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
           {listChangeStatus}
-          {pemesananLayanan.jenisLayanan != 'grooming' && <Link href={"/add-konsultasi/" + id}>
-            <DropdownMenuItem>Add Hasil Konsultasi</DropdownMenuItem>
-          </Link>}
+          {pemesananLayanan.jenisLayanan != "grooming" &&
+            pemesananLayanan.status == "success" && (
+              <Link href={"/add-konsultasi/" + id}>
+                <DropdownMenuItem>Add Hasil Konsultasi</DropdownMenuItem>
+              </Link>
+            )}
           <AlertDialogTrigger asChild>
             <DropdownMenuItem>Delete</DropdownMenuItem>
           </AlertDialogTrigger>
