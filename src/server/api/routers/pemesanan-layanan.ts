@@ -31,25 +31,43 @@ export const pemesananLayananRouter = createTRPCRouter({
       });
     }),
 
-  delete: publicProcedure
-    .input(z.string())
-    .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.pemesananLayanan.delete({
+  delete: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    return ctx.prisma.pemesananLayanan.delete({
+      where: {
+        id: input,
+      },
+
+      select: {
+        user: true,
+      },
+    });
+  }),
+
+  updateHasilKonsultasi: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        hasilKonsultasi: z.string(),
+      })
+    )
+    .mutation(({ ctx, input: { id, hasilKonsultasi } }) => {
+      return ctx.prisma.pemesananLayanan.update({
         where: {
-          id : input,
+          id,
         },
-        
-        select: {
-          user: true,
+        data: {
+          hasilKonsultasi,
         },
       });
     }),
 
-  // create: publicProcedure.mutation(async ({ ctx }) => {
-  //   await layananFake(
-  //     ctx.prisma,
-  //   );
-  // }),
+  getById: publicProcedure.input(z.string()).query(({ ctx, input: id }) => {
+    return ctx.prisma.pemesananLayanan.findUnique({
+      where: {
+        id,
+      },
+    });
+  }),
 
   getAll: publicProcedure.query(async ({ ctx }) => {
     const [allLayananGrooming, allLayananKesehatan, allLayananKonsultasi] =

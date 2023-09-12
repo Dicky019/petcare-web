@@ -65,11 +65,14 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
       const data = row.original;
       const jenisKelaminHewan = data.jenisKelaminHewan
         .split("")
-        .map((v, i) => (i === 0 ? v.toUpperCase() : v)).join("");
+        .map((v, i) => (i === 0 ? v.toUpperCase() : v))
+        .join("");
       return (
         <div className="flex flex-col gap-y-1">
           <div>{data.namaHewan + " / " + data.kategoriHewan}</div>
-          <div className="text-xs text-gray-500">{ data.umurHewan+ " / " + jenisKelaminHewan}</div>
+          <div className="text-xs text-gray-500">
+            {data.umurHewan + " / " + jenisKelaminHewan}
+          </div>
         </div>
       );
     },
@@ -91,7 +94,7 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
   },
   {
     accessorKey: "keluhan",
-    header:  "Keluhan",
+    header: "Keluhan",
     cell: ({ row }) => {
       const keluhan = row.getValue<string>("keluhan");
       return (
@@ -107,6 +110,31 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
             </HoverCardTrigger>
             <HoverCardContent className="text-left">
               <div className="mb-1 text-lg font-semibold">Keluhan</div>
+              <div>{keluhan}</div>
+            </HoverCardContent>
+          </HoverCard>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "hasilKonsultasi",
+    header: "Hasil Keluhan",
+    cell: ({ row }) => {
+      const keluhan = row.getValue<string>("hasilKonsultasi");
+      return !keluhan ? "-" : (
+        <div className="flex items-center gap-x-2">
+          <div className="line-clamp-2 max-w-[250px] text-left font-medium">
+            {keluhan}
+          </div>
+          <HoverCard>
+            <HoverCardTrigger>
+              <Button size="sm" variant="outline">
+                <SiCodereview />
+              </Button>
+            </HoverCardTrigger>
+            <HoverCardContent className="text-left">
+              <div className="mb-1 text-lg font-semibold">Hasil Keluhan</div>
               <div>{keluhan}</div>
             </HoverCardContent>
           </HoverCard>

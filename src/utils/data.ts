@@ -1,6 +1,5 @@
 import { Hari, JenisLayanan } from "@prisma/client";
 import { type ISelectItem } from "~/types/jadwal-layanan";
-import { displayJam } from "./function";
 
 export const listHari = Object.values(Hari);
 

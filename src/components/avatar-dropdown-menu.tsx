@@ -24,8 +24,8 @@ export function AvatarDropdownMenu() {
       <DropdownMenuTrigger asChild>
         <Avatar>
           <AvatarImage
-            src={session?.user.image ? session.user.image : "./bg.png"}
-            alt={session?.user.name ? session.user.name : "@shadcn"}
+            src={session?.user.image ?? "./bg.png"}
+            alt={session?.user.name ?? "@shadcn"}
           />
           <AvatarFallback>U</AvatarFallback>
         </Avatar>

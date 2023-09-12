@@ -1,5 +1,6 @@
 import { Status } from "@prisma/client";
 import { MoreHorizontal } from "lucide-react";
+import Link from "next/link";
 import toast from "react-hot-toast";
 import { AlertDialogDelete } from "~/components/alert-dialog-delete";
 import { AlertDialog, AlertDialogTrigger } from "~/components/ui/alert-dialog";
@@ -31,14 +32,13 @@ export const RowActions = ({
 
   const trpc = api.useContext();
 
-  const { mutate: deleteMutate } =
-    api.pemesananLayanan.delete.useMutation({
-      onSettled: async (data, error) => {
-        error && void toast.error(error?.message);
-        data && void toast.success(data.user.name);
-        await trpc.pemesananLayanan.getAll.invalidate();
-      },
-    });
+  const { mutate: deleteMutate } = api.pemesananLayanan.delete.useMutation({
+    onSettled: async (data, error) => {
+      error && void toast.error(error?.message);
+      data && void toast.success(data.user.name);
+      await trpc.pemesananLayanan.getAll.invalidate();
+    },
+  });
 
   const { mutate: changeStatusMutate } =
     api.pemesananLayanan.changeStatus.useMutation({
@@ -75,6 +75,9 @@ export const RowActions = ({
         <DropdownMenuContent align="end">
           {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
           {listChangeStatus}
+          {pemesananLayanan.jenisLayanan != 'grooming' && <Link href={"/add-konsultasi/" + id}>
+            <DropdownMenuItem>Add Hasil Konsultasi</DropdownMenuItem>
+          </Link>}
           <AlertDialogTrigger asChild>
             <DropdownMenuItem>Delete</DropdownMenuItem>
           </AlertDialogTrigger>

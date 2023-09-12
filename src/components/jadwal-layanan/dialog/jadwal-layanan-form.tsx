@@ -181,32 +181,64 @@ export function JadwalLayananForm({
   );
 }
 
-// {
-/* <form onSubmit={onSubmit}>
-        <div className="grid gap-2">
-          <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
-              Email
-            </Label>
-            <Input
-              id="email"
-              placeholder="name@example.com"
-              type="email"
-              autoCapitalize="none"
-              autoComplete="email"
-              autoCorrect="off"
-              disabled={isLoading}
-            />
+import { Input } from "~/components/ui/input"
+import { Label } from "~/components/ui/label"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover"
+
+export function PopoverDemo() {
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Input/>
+      </PopoverTrigger>
+      <PopoverContent className="w-80">
+        <div className="grid gap-4">
+          <div className="space-y-2">
+            <h4 className="font-medium leading-none">Dimensions</h4>
+            <p className="text-sm text-muted-foreground">
+              Set the dimensions for the layer.
+            </p>
           </div>
-          <Button disabled={isLoading}>
-            {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Sign In with Email
-          </Button>
+          <div className="grid gap-2">
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="width">Width</Label>
+              <Input
+                id="width"
+                defaultValue="100%"
+                className="col-span-2 h-8"
+              />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="maxWidth">Max. width</Label>
+              <Input
+                id="maxWidth"
+                defaultValue="300px"
+                className="col-span-2 h-8"
+              />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="height">Height</Label>
+              <Input
+                id="height"
+                defaultValue="25px"
+                className="col-span-2 h-8"
+              />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="maxHeight">Max. height</Label>
+              <Input
+                id="maxHeight"
+                defaultValue="none"
+                className="col-span-2 h-8"
+              />
+            </div>
+          </div>
         </div>
-      </form> */
-// }
-// {
-/* Form */
-// }
+      </PopoverContent>
+    </Popover>
+  )
+}

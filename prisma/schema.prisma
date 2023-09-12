@@ -20,6 +20,7 @@ model PemesananLayanan {
     umurHewan         String
     jenisKelaminHewan JenisKelaminHewan
     keluhan           String?
+    hasilKonsultasi   String?
     status            Status
     tanggal           String
     ///
