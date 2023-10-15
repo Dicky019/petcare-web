@@ -23,6 +23,7 @@ model PemesananLayanan {
     hasilKonsultasi   String?
     status            Status
     tanggal           String
+    tambahanPemesanan String?
     ///
     jam               String
 }

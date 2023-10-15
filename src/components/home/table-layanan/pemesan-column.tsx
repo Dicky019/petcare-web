@@ -92,6 +92,8 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
       );
     },
   },
+  
+
   {
     accessorKey: "keluhan",
     header: "Keluhan",
@@ -140,6 +142,14 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
           </HoverCard>
         </div>
       );
+    },
+  },
+  {
+    accessorKey: "tambahanPemesanan",
+    header: "Tambahan Pemesanan",
+    cell: ({ row }) => {
+      const data = row.original;
+      return data.tambahanPemesanan ?? "-"
     },
   },
   {

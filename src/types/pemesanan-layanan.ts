@@ -19,7 +19,6 @@ export const ZCreatePemesananLayanan = z.object({
   status: z.enum(["pending", "processing", "success", "failed"]),
   tanggal: z.string(),
   jam: z.string(),
- 
 });
 
 export const ZUpdatePemesananLayanan = z.object({
@@ -34,6 +33,11 @@ export const ZUpdatePemesananLayanan = z.object({
   status: z.enum(["pending", "processing", "success", "failed"]).optional(),
   tanggal: z.string().optional(),
   jam: z.string().optional(),
+});
+
+export const ZUpdatePemesananTambahan = z.object({
+  id: z.string(),
+  tambahanPemesanan: z.string().optional(),
 });
 
 export const ZDeletePemesananLayanan = z.object({

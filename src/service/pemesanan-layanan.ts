@@ -7,6 +7,7 @@ import {
   ZCreatePemesananLayanan,
   ZDeletePemesananLayanan,
   ZUpdatePemesananLayanan,
+  ZUpdatePemesananTambahan,
 } from "~/types/pemesanan-layanan";
 import { displayJam } from "~/utils/function";
 
@@ -98,6 +99,38 @@ export async function createPemesanan({
     code: "200",
     status: "Succses",
     data: pemesanan,
+  });
+}
+
+export async function setPemesananTambahan({ req, res, prisma }: IPemesananProps) {
+  const result = ZUpdatePemesananTambahan.safeParse({
+    ...req.query,
+    ...req.body,
+  });
+
+  if (!result.success) {
+    return res.status(404).json({
+      code: "400",
+      status: "Bad Request",
+      errors: [result.error.formErrors.fieldErrors],
+    });
+  }
+
+  const { id, ...data } = result.data;
+
+  const { tambahanPemesanan } = await prisma.pemesananLayanan.update({
+    data,
+    where: {
+      id,
+    },
+  });
+
+  return res.status(200).json({
+    code: "200",
+    status: "Succses",
+    data: {
+      tambahanPemesanan,
+    },
   });
 }
 
