@@ -1,4 +1,4 @@
-import { type Status, } from "@prisma/client";
+import { type Status } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
 import { type IPemesananLayanan } from "~/types/pemesanan-layanan";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
@@ -43,9 +43,7 @@ export const pemesanNoKeluhanColumns: ColumnDef<IPemesananLayanan>[] = [
           </Avatar>
           <div className="flex flex-col gap-y-1">
             <div>{user?.name ?? "shadcn"}</div>
-            <div className="text-xs text-gray-500">
-              {user?.noHP ?? "-"}
-            </div>
+            <div className="text-xs text-gray-500">{user?.noHP ?? "-"}</div>
           </div>
         </div>
       );
@@ -58,11 +56,14 @@ export const pemesanNoKeluhanColumns: ColumnDef<IPemesananLayanan>[] = [
       const data = row.original;
       const jenisKelaminHewan = data.jenisKelaminHewan
         .split("")
-        .map((v, i) => (i === 0 ? v.toUpperCase() : v)).join("");
+        .map((v, i) => (i === 0 ? v.toUpperCase() : v))
+        .join("");
       return (
         <div className="flex flex-col gap-y-1">
           <div>{data.namaHewan + " / " + data.kategoriHewan}</div>
-          <div className="text-xs text-gray-500">{ data.umurHewan+ " / " + jenisKelaminHewan}</div>
+          <div className="text-xs text-gray-500">
+            {data.umurHewan + " / " + jenisKelaminHewan}
+          </div>
         </div>
       );
     },
@@ -82,6 +83,15 @@ export const pemesanNoKeluhanColumns: ColumnDef<IPemesananLayanan>[] = [
       );
     },
   },
+  {
+    accessorKey: "tambahanPemesanan",
+    header: "Tambahan Pemesanan",
+    cell: ({ row }) => {
+      const data = row.original;
+      return data.tambahanPemesanan ?? "-";
+    },
+  },
+
   {
     id: "actions",
     cell: ({ row }) => <RowActions pemesananLayanan={row.original} />,
