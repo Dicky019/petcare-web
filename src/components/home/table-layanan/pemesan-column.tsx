@@ -151,7 +151,7 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
     cell: ({ row }) => {
       const data = row.original;
       const list = data.pemesananTambahan?.map((v) => v.value) ?? [];
-      return list.length == 0 ? list.join(", ") : "-";
+      return list.length != 0 ? list.join(", ") : "-";
     },
   },
   {

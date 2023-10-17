@@ -89,10 +89,9 @@ export const pemesanNoKeluhanColumns: ColumnDef<IPemesananLayanan>[] = [
     cell: ({ row }) => {
       const data = row.original;
       const list = data.pemesananTambahan?.map((v) => v.value) ?? [];
-      return list.length == 0 ? list.join(", ") : "-";
+      return list.length != 0 ? list.join(", ") : "-";
     },
   },
-
   {
     id: "actions",
     cell: ({ row }) => <RowActions pemesananLayanan={row.original} />,
