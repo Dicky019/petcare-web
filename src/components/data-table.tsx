@@ -29,23 +29,29 @@ import {
   ChevronsRight,
 } from "lucide-react";
 import { DialogForm } from "./jadwal-layanan/dialog/dialog-form";
+import { DialogForm as DialogFormTambahan } from "./pemesanan-tambahan/dialog/dialog-form";
 import { Dialog } from "./ui/dialog";
+import { useRouter } from "next/router";
+import { JenisLayanan } from "@prisma/client";
 // import { Input } from "~/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   name: string;
-  isActive?: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   name,
-  isActive = false,
 }: // sortKey
 DataTableProps<TData, TValue>) {
+  const { query, pathname } = useRouter();
+  const queryLayanan = query["layanan"]?.toString() ?? "kesehatan";
+  const jenisLayanan =
+    JenisLayanan[queryLayanan as keyof typeof JenisLayanan] ||
+    JenisLayanan.kesehatan;
   // const [sorting, setSorting] = React.useState<SortingState>([]);
   // const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
   //   []
@@ -132,13 +138,24 @@ DataTableProps<TData, TValue>) {
                 >
                   <div className="flex flex-col items-center justify-center gap-y-4 font-bold">
                     <span>{name} No results.</span>
-                    {isActive && (
+                    {pathname === "/pemesanan-tambahan" ? (
                       <Dialog>
-                        <DialogForm>
-                          <Button size={"lg"}>Tambah {name}</Button>
+                        <DialogFormTambahan jenisLayanan={jenisLayanan}>
+                          <Button variant="outline" size={"lg"}>
+                            Tambah
+                          </Button>
+                        </DialogFormTambahan>
+                      </Dialog>
+                    ) : null}
+                    {pathname === "/jadwal-layanan" ? (
+                      <Dialog>
+                        <DialogForm jenisLayanan={jenisLayanan}>
+                          <Button variant="outline" size={"lg"}>
+                            Tambah
+                          </Button>
                         </DialogForm>
                       </Dialog>
-                    )}
+                    ) : null}
                   </div>
                 </TableCell>
               </TableRow>

@@ -3,6 +3,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
 import { pemesananLayananRouter } from "./routers/pemesanan-layanan";
 import { usersRouter } from "./routers/users";
 import { jadwalLayananRouter } from "./routers/jadwal-layanan";
+import { pemesananTambahanRouter } from "./routers/pemesanan-tambahan";
 
 /**
  * This is the primary router for your server.
@@ -11,6 +12,7 @@ import { jadwalLayananRouter } from "./routers/jadwal-layanan";
  */
 export const appRouter = createTRPCRouter({
   pemesananLayanan: pemesananLayananRouter,
+  pemesananTambahan: pemesananTambahanRouter,
   jadwalLayanan: jadwalLayananRouter,
   users: usersRouter,
 });

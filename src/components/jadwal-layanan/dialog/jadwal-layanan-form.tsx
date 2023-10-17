@@ -36,16 +36,18 @@ import {
 
 type UserAuthFormProps = {
   data?: IJadwalLayanan;
+  jenisLayananOld?: JenisLayanan;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export function JadwalLayananForm({
   className,
   data,
+  jenisLayananOld,
   ...props
 }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
-  const [jenisLayanan, setJenisLayanan] = useState(data?.jenisLayanan);
+  const [jenisLayanan, setJenisLayanan] = useState(data?.jenisLayanan ?? jenisLayananOld);
 
   const [listJamForm, setListJamForm] = useState<ISelectItem[]>([]);
 
@@ -79,7 +81,7 @@ export function JadwalLayananForm({
     defaultValues: {
       hari: data?.hari,
       jam: data?.jam,
-      jenisLayanan: data?.jenisLayanan,
+      jenisLayanan: data?.jenisLayanan ?? jenisLayananOld,
     },
   });
 

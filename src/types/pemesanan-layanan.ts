@@ -6,7 +6,7 @@ import { z } from "zod";
 type RouterOutput = inferRouterOutputs<AppRouter>;
 
 export type IPemesananLayanan =
-  RouterOutput["pemesananLayanan"]["getAll"]["layananGrouming"]["allPemesananLayanan"][number];
+  RouterOutput["pemesananLayanan"]["getAll"]["allPemesananLayanan"][number];
 
 export const ZCreatePemesananLayanan = z.object({
   jenisLayanan: z.enum(["grooming", "kesehatan", "konsultasi"]),

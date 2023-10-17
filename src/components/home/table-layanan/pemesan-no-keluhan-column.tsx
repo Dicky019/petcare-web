@@ -88,7 +88,7 @@ export const pemesanNoKeluhanColumns: ColumnDef<IPemesananLayanan>[] = [
     header: "Tambahan Pemesanan",
     cell: ({ row }) => {
       const data = row.original;
-      return data.tambahanPemesanan ?? "-";
+      return data.pemesananTambahan?.value ?? "-";
     },
   },
 

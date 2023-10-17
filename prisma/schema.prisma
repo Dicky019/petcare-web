@@ -8,24 +8,38 @@ datasource db {
 }
 
 model PemesananLayanan {
-    id                String            @id @default(cuid())
-    createdAt         DateTime          @default(now())
-    updatedAt         DateTime          @updatedAt
+    id                  String             @id @default(cuid())
+    createdAt           DateTime           @default(now())
+    updatedAt           DateTime           @updatedAt
     ///
-    user              User              @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    userId            String
-    jenisLayanan      JenisLayanan
-    namaHewan         String
-    kategoriHewan     String
-    umurHewan         String
-    jenisKelaminHewan JenisKelaminHewan
-    keluhan           String?
-    hasilKonsultasi   String?
-    status            Status
-    tanggal           String
-    tambahanPemesanan String?
+    user                User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    userId              String
+    jenisLayanan        JenisLayanan
+    namaHewan           String
+    kategoriHewan       String
+    umurHewan           String
+    jenisKelaminHewan   JenisKelaminHewan
+    keluhan             String?
+    hasilKonsultasi     String?
+    status              Status
+    tanggal             String
+    pemesananTambahan   PemesananTambahan? @relation(fields: [pemesananTambahanId], references: [id], onUpdate: Cascade)
+    pemesananTambahanId String?
+
     ///
-    jam               String
+    // tambahanPemesanan String?
+    ///
+
+    jam String
+}
+
+model PemesananTambahan {
+    id               String             @id @default(cuid())
+    createdAt        DateTime           @default(now())
+    updatedAt        DateTime           @updatedAt
+    value            String
+    jenisLayanan     JenisLayanan
+    PemesananLayanan PemesananLayanan[]
 }
 
 enum JenisKelaminHewan {

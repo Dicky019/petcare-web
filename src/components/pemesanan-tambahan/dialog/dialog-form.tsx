@@ -1,4 +1,4 @@
-import { type JenisLayanan, type JadwalLayanan } from "@prisma/client";
+import { type JenisLayanan, type PemesananTambahan } from "@prisma/client";
 import { type ReactNode } from "react";
 
 import {
@@ -17,21 +17,29 @@ import {
 } from "~/components/ui/select";
 import { type ISelectItem } from "~/types/jadwal-layanan";
 
-import { JadwalLayananForm } from "./jadwal-layanan-form";
+import { PemesananTambahanForm } from "./pemesanan-tambahan-form";
 
 interface IDialogFormProps {
-  data?: JadwalLayanan;
+  data?: PemesananTambahan;
   children?: ReactNode;
   jenisLayanan?: JenisLayanan;
 }
 
-export function DialogForm({ data, children, jenisLayanan }: IDialogFormProps) {
+export function DialogForm({ data, children,jenisLayanan }: IDialogFormProps) {
+  // const dialogDescriptionEdit =
+  //   "Make changes to your Jadwal here. Click save when you're done.";
+  // const dialogDescriptionAdd =
+  //   "Make changes to your Jadwal here. Click save when you're done.";
+
   const DialogContentForm = () => (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>{data ? "Edit" : "Tambah"} Jadwal</DialogTitle>
+        <DialogTitle>{data ? "Edit" : "Tambah"} Pemesanan Tambahan</DialogTitle>
+        {/* <DialogDescription>
+          {data ? dialogDescriptionEdit : dialogDescriptionAdd}
+        </DialogDescription> */}
       </DialogHeader>
-      <JadwalLayananForm jenisLayananOld={jenisLayanan} data={data} />
+      <PemesananTambahanForm jenisLayanan={jenisLayanan} data={data} />
     </DialogContent>
   );
 

@@ -11,6 +11,10 @@ export const siteConfig = {
       href: "/",
     },
     {
+      title: "Pemesanan Tambahan",
+      href: "/pemesanan-tambahan",
+    },
+    {
       title: "Jadwal Layanan",
       href: "/jadwal-layanan",
     },

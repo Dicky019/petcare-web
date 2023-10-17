@@ -4,6 +4,7 @@ import { type NextApiRequest, type NextApiResponse } from "next";
 import type { JWT } from "next-auth/jwt";
 import { getAllJadwalLayanan } from "~/service/jadwal-layanan";
 import { displayJam, filterByHari } from "~/utils/function";
+import { JenisLayanan } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -52,35 +53,52 @@ export default async function handler(
 
   if (req.method === "GET") {
     const [allLayananGrooming, allLayananKesehatan, allLayananKonsultasi] =
-      await getAllJadwalLayanan({
-        prisma,
-      });
+      await Promise.all([
+        getAllJadwalLayanan({
+          prisma,
+          jenisLayanan: JenisLayanan.grooming,
+        }),
+        getAllJadwalLayanan({
+          prisma,
+          jenisLayanan: JenisLayanan.kesehatan,
+        }),
+        getAllJadwalLayanan({
+          prisma,
+          jenisLayanan: JenisLayanan.konsultasi,
+        }),
+      ]);
 
     const data = {
-      layananGrouming: allLayananGrooming.map(({ jam, ...value }) => ({
-        ...value,
-        jam: displayJam(jam),
-      })).sort((a,b) => {
-        const hariA = filterByHari(a.hari)
-        const hariB = filterByHari(b.hari)
-        return Number(hariA) - Number(hariB);
-      }),
-      layananKesehatan: allLayananKesehatan.map(({ jam, ...value }) => ({
-        ...value,
-        jam: displayJam(jam),
-      })).sort((a,b) => {
-        const hariA = filterByHari(a.hari)
-        const hariB = filterByHari(b.hari)
-        return Number(hariA) - Number(hariB);
-      }),
-      layananKonsultasi: allLayananKonsultasi.map(({ jam, ...value }) => ({
-        ...value,
-        jam: displayJam(jam),
-      })).sort((a,b) => {
-        const hariA = filterByHari(a.hari)
-        const hariB = filterByHari(b.hari)
-        return Number(hariA) - Number(hariB);
-      }),
+      layananGrouming: allLayananGrooming
+        .map(({ jam, ...value }) => ({
+          ...value,
+          jam: displayJam(jam),
+        }))
+        .sort((a, b) => {
+          const hariA = filterByHari(a.hari);
+          const hariB = filterByHari(b.hari);
+          return Number(hariA) - Number(hariB);
+        }),
+      layananKesehatan: allLayananKesehatan
+        .map(({ jam, ...value }) => ({
+          ...value,
+          jam: displayJam(jam),
+        }))
+        .sort((a, b) => {
+          const hariA = filterByHari(a.hari);
+          const hariB = filterByHari(b.hari);
+          return Number(hariA) - Number(hariB);
+        }),
+      layananKonsultasi: allLayananKonsultasi
+        .map(({ jam, ...value }) => ({
+          ...value,
+          jam: displayJam(jam),
+        }))
+        .sort((a, b) => {
+          const hariA = filterByHari(a.hari);
+          const hariB = filterByHari(b.hari);
+          return Number(hariA) - Number(hariB);
+        }),
     };
 
     return res.status(200).json({

@@ -92,7 +92,6 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
       );
     },
   },
-  
 
   {
     accessorKey: "keluhan",
@@ -124,7 +123,9 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
     header: "Hasil Keluhan",
     cell: ({ row }) => {
       const keluhan = row.getValue<string>("hasilKonsultasi");
-      return !keluhan ? "-" : (
+      return !keluhan ? (
+        "-"
+      ) : (
         <div className="flex items-center gap-x-2">
           <div className="line-clamp-2 max-w-[250px] text-left font-medium">
             {keluhan}
@@ -145,11 +146,11 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
     },
   },
   {
-    accessorKey: "tambahanPemesanan",
-    header: "Tambahan Pemesanan",
+    accessorKey: "pemesananTambahanId",
+    header: "Pemesanan Tambahan",
     cell: ({ row }) => {
       const data = row.original;
-      return data.tambahanPemesanan ?? "-"
+      return data.pemesananTambahan?.value ?? "-";
     },
   },
   {

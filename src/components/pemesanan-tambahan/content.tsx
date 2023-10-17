@@ -1,9 +1,9 @@
 import { columns } from "./table-layanan/column";
 import { DataTable } from "~/components/data-table";
-import { type IJadwalLayanan } from "~/types/jadwal-layanan";
+import { type IPemesananTambahan } from "~/types/pemesanan-tambahan";
 
 interface IContentProps {
-  data: IJadwalLayanan[];
+  data: IPemesananTambahan[];
 }
 
 export const Content = ({ data }: IContentProps) => {
@@ -11,9 +11,7 @@ export const Content = ({ data }: IContentProps) => {
     <DataTable
       columns={columns}
       data={data}
-      name="Jadwal Layanan"
+      name="Pemesanan Tambahan"
     />
   );
 };
-
-

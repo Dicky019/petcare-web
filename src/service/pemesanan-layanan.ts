@@ -1,5 +1,5 @@
-import type { PemesananLayanan, User } from "@prisma/client";
-import { JenisLayanan, type Status } from "@prisma/client";
+import type { PemesananLayanan, Prisma, User } from "@prisma/client";
+import { JenisLayanan } from "@prisma/client";
 import { type JWT } from "next-auth/jwt";
 import { type NextApiRequest, type NextApiResponse } from "next/types";
 import { type IPrismaProps } from "~/server/db";
@@ -8,45 +8,26 @@ import {
   ZDeletePemesananLayanan,
   ZUpdatePemesananLayanan,
   ZUpdatePemesananTambahan,
+  // ZUpdatePemesananTambahan,
 } from "~/types/pemesanan-layanan";
 import { displayJam } from "~/utils/function";
 
 interface IPemesananLayananProps {
   prisma: IPrismaProps;
-  status?: Status;
+  where?: Prisma.PemesananLayananWhereInput;
 }
 
 export const getAllPemesananLayanan = async ({
   prisma,
-  status,
+  where,
 }: IPemesananLayananProps) => {
-  const whereStatus = status && {
-    status,
-  };
-
-  return await Promise.all([
-    prisma.pemesananLayanan.findMany({
-      where: {
-        jenisLayanan: JenisLayanan.grooming,
-        ...whereStatus,
-      },
-      include: { user: true },
-    }),
-    prisma.pemesananLayanan.findMany({
-      where: {
-        jenisLayanan: JenisLayanan.kesehatan,
-        ...whereStatus,
-      },
-      include: { user: true },
-    }),
-    prisma.pemesananLayanan.findMany({
-      where: {
-        jenisLayanan: JenisLayanan.konsultasi,
-        ...whereStatus,
-      },
-      include: { user: true },
-    }),
-  ]);
+  return await prisma.pemesananLayanan.findMany({
+    where: {
+      jenisLayanan: JenisLayanan.kesehatan,
+      ...where,
+    },
+    include: { user: true, pemesananTambahan: true },
+  });
 };
 
 interface IPemesananProps {
@@ -102,7 +83,11 @@ export async function createPemesanan({
   });
 }
 
-export async function setPemesananTambahan({ req, res, prisma }: IPemesananProps) {
+export async function setPemesananTambahan({
+  req,
+  res,
+  prisma,
+}: IPemesananProps) {
   const result = ZUpdatePemesananTambahan.safeParse({
     ...req.query,
     ...req.body,
@@ -116,12 +101,45 @@ export async function setPemesananTambahan({ req, res, prisma }: IPemesananProps
     });
   }
 
-  const { id, ...data } = result.data;
+  const { id, tambahanPemesanan } = result.data;
 
-  const { tambahanPemesanan } = await prisma.pemesananLayanan.update({
-    data,
+  const pemesananLayanan = await prisma.pemesananLayanan.findUnique({
     where: {
       id,
+    },
+  });
+
+  if (!pemesananLayanan) {
+    return res.status(404).json({
+      code: "404",
+      status: "Not Found",
+      errors: [{ pemesanan: ["Pemesanan Not Found"] }],
+    });
+  }
+
+  const data = await prisma.pemesananLayanan.update({
+    data: {
+      pemesananTambahan: {
+        upsert: {
+          where: {
+            id,
+          },
+          update: {
+            jenisLayanan: pemesananLayanan.jenisLayanan,
+            value: tambahanPemesanan ?? "",
+          },
+          create: {
+            jenisLayanan: pemesananLayanan.jenisLayanan,
+            value: tambahanPemesanan ?? "",
+          },
+        },
+      },
+    },
+    where: {
+      id,
+    },
+    include: {
+      pemesananTambahan: true,
     },
   });
 
@@ -129,7 +147,7 @@ export async function setPemesananTambahan({ req, res, prisma }: IPemesananProps
     code: "200",
     status: "Succses",
     data: {
-      tambahanPemesanan,
+      tambahanPemesanan: data.pemesananTambahan?.value ?? tambahanPemesanan,
     },
   });
 }

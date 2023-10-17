@@ -1,13 +1,10 @@
-import { Status } from "@prisma/client";
+import { type JenisLayanan, Status } from "@prisma/client";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { sameDay } from "~/utils/function";
 import {
   // layananFake,
   getAllPemesananLayanan,
 } from "~/service/pemesanan-layanan";
-
-const date = new Date();
 
 export const pemesananLayananRouter = createTRPCRouter({
   changeStatus: publicProcedure
@@ -69,73 +66,54 @@ export const pemesananLayananRouter = createTRPCRouter({
     });
   }),
 
-  getAll: publicProcedure.query(async ({ ctx }) => {
-    const [allLayananGrooming, allLayananKesehatan, allLayananKonsultasi] =
-      await getAllPemesananLayanan({
-        prisma: ctx.prisma,
-      });
+  getAll: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    const jenisLayanan = input as JenisLayanan;
+    const lastDay = Date.now() - 24 * 60 * 60 * 1000;
 
-    const [successGrouming, successKesehatan, successKonsultasi] =
-      await getAllPemesananLayanan({
-        prisma: ctx.prisma,
-        status: Status.success,
-      });
+    const allLayanan = await getAllPemesananLayanan({
+      prisma: ctx.prisma,
+      where: {
+        jenisLayanan,
+      },
+    });
 
-    const [pendingGrouming, pendingKesehatan, pendingKonsultasi] =
-      await getAllPemesananLayanan({
-        prisma: ctx.prisma,
-        status: Status.pending,
-      });
+    const successLayanan = await getAllPemesananLayanan({
+      prisma: ctx.prisma,
+      where: { jenisLayanan, status: Status.success },
+    });
 
-    const [processingGrouming, processingKesehatan, processingKonsultasi] =
-      await getAllPemesananLayanan({
-        prisma: ctx.prisma,
-        status: Status.processing,
-      });
+    const pendingLayanan = await getAllPemesananLayanan({
+      prisma: ctx.prisma,
+      where: { jenisLayanan, status: Status.pending },
+    });
 
-    const [failedGrouming, failedKesehatan, failedKonsultasi] =
-      await getAllPemesananLayanan({
-        prisma: ctx.prisma,
-        status: Status.failed,
-      });
+    const processingLayanan = await getAllPemesananLayanan({
+      prisma: ctx.prisma,
+      where: { jenisLayanan, status: Status.processing },
+    });
 
-    const todayPemesananLayananGrouming = allLayananGrooming.filter(
-      ({ createdAt }) => sameDay(createdAt, date)
-    );
+    const failedLayanan = await getAllPemesananLayanan({
+      prisma: ctx.prisma,
+      where: { jenisLayanan, status: Status.failed },
+    });
 
-    const todayPemesananLayananKesehatan = allLayananKesehatan.filter(
-      ({ createdAt }) => sameDay(createdAt, date)
-    );
-
-    const todayPemesananLayananKonsultasi = allLayananKonsultasi.filter(
-      ({ createdAt }) => sameDay(createdAt, date)
-    );
+    const todayPemesananLayanan = await getAllPemesananLayanan({
+      prisma: ctx.prisma,
+      where: {
+        jenisLayanan,
+        createdAt: {
+          gte: new Date(lastDay).toISOString(),
+        },
+      },
+    });
 
     return {
-      layananGrouming: {
-        allPemesananLayanan: allLayananGrooming,
-        todayPemesananLayanan: todayPemesananLayananGrouming,
-        success: successGrouming,
-        processing: processingGrouming,
-        pending: pendingGrouming,
-        failed: failedGrouming,
-      },
-      layananKesehatan: {
-        allPemesananLayanan: allLayananKesehatan,
-        todayPemesananLayanan: todayPemesananLayananKesehatan,
-        success: successKesehatan,
-        processing: processingKesehatan,
-        pending: pendingKesehatan,
-        failed: failedKesehatan,
-      },
-      layananKonsultasi: {
-        allPemesananLayanan: allLayananKonsultasi,
-        todayPemesananLayanan: todayPemesananLayananKonsultasi,
-        success: successKonsultasi,
-        processing: processingKonsultasi,
-        pending: pendingKonsultasi,
-        failed: failedKonsultasi,
-      },
+      allPemesananLayanan: allLayanan,
+      todayPemesananLayanan: todayPemesananLayanan,
+      success: successLayanan,
+      processing: processingLayanan,
+      pending: pendingLayanan,
+      failed: failedLayanan,
     };
   }),
 });
