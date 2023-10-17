@@ -251,6 +251,9 @@ export const getByUserPemesanan = async ({
     where: {
       id,
     },
+    include: {
+      pemesananTambahan: true,
+    },
   });
 
   if (!response) {
