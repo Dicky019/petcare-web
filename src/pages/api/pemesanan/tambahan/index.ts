@@ -49,7 +49,11 @@ export default async function handler(
     });
   }
 
-  const data = await prisma.pemesananTambahan.findMany();
+  const data = await prisma.pemesananTambahan.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
   return res.status(200).json({
     code: "200",

@@ -19,7 +19,7 @@ export const getAllPemesananTambahan = async ({
       jenisLayanan,
     },
     orderBy: {
-      updatedAt: "desc",
+      createdAt: "desc",
     },
   });
 };
