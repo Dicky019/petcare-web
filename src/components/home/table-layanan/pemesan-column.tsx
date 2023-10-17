@@ -150,7 +150,8 @@ export const pemesanColumns: ColumnDef<IPemesananLayanan>[] = [
     header: "Pemesanan Tambahan",
     cell: ({ row }) => {
       const data = row.original;
-      return data.pemesananTambahan?.value ?? "-";
+      const list = data.pemesananTambahan?.map((v) => v.value) ?? [];
+      return list.length == 0 ? list.join(", ") : "-";
     },
   },
   {

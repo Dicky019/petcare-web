@@ -37,7 +37,7 @@ export const ZUpdatePemesananLayanan = z.object({
 
 export const ZUpdatePemesananTambahan = z.object({
   id: z.string(),
-  tambahanPemesanan: z.string().optional(),
+  listData: z.array(z.string()),
 });
 
 export const ZDeletePemesananLayanan = z.object({

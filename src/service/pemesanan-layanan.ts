@@ -101,7 +101,7 @@ export async function setPemesananTambahan({
     });
   }
 
-  const { id, tambahanPemesanan } = result.data;
+  const { id, listData } = result.data;
 
   const pemesananLayanan = await prisma.pemesananLayanan.findUnique({
     where: {
@@ -117,29 +117,12 @@ export async function setPemesananTambahan({
     });
   }
 
-  const data = await prisma.pemesananLayanan.update({
+  const data = await prisma.pemesananTambahan.updateMany({
     data: {
-      pemesananTambahan: {
-        upsert: {
-          where: {
-            id,
-          },
-          update: {
-            jenisLayanan: pemesananLayanan.jenisLayanan,
-            value: tambahanPemesanan ?? "",
-          },
-          create: {
-            jenisLayanan: pemesananLayanan.jenisLayanan,
-            value: tambahanPemesanan ?? "",
-          },
-        },
-      },
+      pemesananLayananId: id,
     },
     where: {
-      id,
-    },
-    include: {
-      pemesananTambahan: true,
+      id: { in: listData },
     },
   });
 
@@ -147,7 +130,7 @@ export async function setPemesananTambahan({
     code: "200",
     status: "Succses",
     data: {
-      tambahanPemesanan: data.pemesananTambahan?.value ?? tambahanPemesanan,
+      tambahanPemesanan: "dasdsa " + data.count.toString(),
     },
   });
 }
