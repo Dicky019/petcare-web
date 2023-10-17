@@ -117,6 +117,17 @@ export async function setPemesananTambahan({
     });
   }
 
+  await prisma.pemesananLayanan.update({
+    data: {
+      pemesananTambahan: {
+        set: [],
+      },
+    },
+    where: {
+      id,
+    },
+  });
+
   const data = await prisma.pemesananTambahan.updateMany({
     data: {
       pemesananLayananId: id,
@@ -130,7 +141,7 @@ export async function setPemesananTambahan({
     code: "200",
     status: "Succses",
     data: {
-      tambahanPemesanan: "dasdsa " + data.count.toString(),
+      tambahanPemesanan: "Tambahan Pemesanan " + data.count.toString(),
     },
   });
 }
